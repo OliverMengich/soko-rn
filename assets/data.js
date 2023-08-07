@@ -2,6 +2,7 @@
 /* eslint-disable prettier/prettier */
 const SHOP_DATA = [
     {
+      id: '1',
       title: 'Hats',
       imageUrl: 'https://openclipart.org/image/800px/276320',
       items: [
@@ -62,6 +63,7 @@ const SHOP_DATA = [
       ],
     },
     {
+      id:'2',
       title: 'Sneakers',
       imageUrl: 'https://openclipart.org/image/800px/308649',
       items: [
@@ -116,6 +118,7 @@ const SHOP_DATA = [
       ],
     },
     {
+      id: '3',
       title: 'Jackets',
       imageUrl:'https://openclipart.org/image/800px/7032',
       items: [
@@ -152,6 +155,7 @@ const SHOP_DATA = [
       ],
     },
     {
+      id: '4',
       title: 'Womens',
       imageUrl: 'https://openclipart.org/image/800px/289482',
       items: [
@@ -200,6 +204,7 @@ const SHOP_DATA = [
       ],
     },
     {
+      id: '5',
       title: 'Mens',
       imageUrl: 'https://openclipart.org/image/800px/7032',
       items: [
@@ -243,3 +248,4 @@ const SHOP_DATA = [
     },
   ];
 export default SHOP_DATA;
+console.log();

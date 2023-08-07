@@ -40,7 +40,7 @@ function LoginScreen() {
 
 	const isDarkMode = useColorScheme() === 'dark';
     return (
-        <>
+        <View style={{flex:1}}>
             <StatusBar
 				barStyle={isDarkMode ? 'dark-content' : 'light-content'}
 				backgroundColor={'red'}
@@ -57,7 +57,7 @@ function LoginScreen() {
                         <Text style={{color:'blue', alignSelf: 'center'}}>Forgot password?</Text>
                     </View>
             </View> 
-        </>
+        </View>
     );
 }
 const styles = StyleSheet.create({
