@@ -1,12 +1,17 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import {View, Text } from 'react-native';
+import {View, Text, StyleSheet } from 'react-native';
 
 function UserProfile() {
     return (
         <View>
-            <Text>User Profile</Text>
+            <Text style={styles.textColor}>User Profile</Text>
         </View>
     );
 }
+const styles = StyleSheet.create({
+    textColor:{
+        color: '#000',
+    },
+});
 export default UserProfile;
