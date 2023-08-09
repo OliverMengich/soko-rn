@@ -19,11 +19,13 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginScreen from './screens/LoginScreen';
 import CategoryScreen from './screens/CategoryScreen';
 import ProductDetail from './screens/ProductDetail';
+import AllCategoriesScreen from './screens/AllCategoriesScreen';
 export type RootStackParamList = {
     HomeScreen: undefined;
     CategoryScreen: {id: string};
     LoginScreen: undefined;
 	ProductDetail: {id: number};
+	AllCategoriesScreen: undefined;
 };
 type TabStackParamList = {
 	HomeScreen: undefined;
@@ -75,8 +77,9 @@ function App(): JSX.Element {
 					<Stack.Navigator screenOptions={{headerShown: false}}>
 						<Stack.Screen name={'HomeScreen'} component={TabNavigator}/>
 						<Stack.Screen name={'LoginScreen'} component={LoginScreen}/>
-						<Stack.Screen options={{headerShown: true}} name={'CategoryScreen'} component={CategoryScreen}/>
+						<Stack.Screen options={{headerShown: false}} name={'CategoryScreen'} component={CategoryScreen}/>
 						<Stack.Screen options={{headerShown: true}} name={'ProductDetail'} component={ProductDetail}/>
+						<Stack.Screen options={{headerShown: false}} name={'AllCategoriesScreen'} component={AllCategoriesScreen}/>
 					</Stack.Navigator>
 				</SafeAreaView>
 		</NavigationContainer>
