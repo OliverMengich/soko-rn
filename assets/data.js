@@ -1,5 +1,6 @@
 /* eslint-disable eol-last */
 /* eslint-disable prettier/prettier */
+
 const SHOP_DATA = [
     {
       id: '1',
@@ -243,6 +244,25 @@ const SHOP_DATA = [
           name: 'Burgundy T-shirt',
           imageUrl: 'https://i.ibb.co/mh3VM1f/polka-dot-shirt.png',
           price: 25,
+        },
+      ],
+    },
+    {
+      id: '6',
+      title: 'Electronics',
+      imageUrl: 'https://openclipart.org/image/800px/217118',
+      items: [
+        {
+          id: 36,
+          name: 'Apple iPhone 11 Pro Max',
+          imageUrl: 'https://i.ibb.co/7CQVJNm/blue-tank.png',
+          price: 25,
+        },
+        {
+          id: 37,
+          name: 'TWS i12 Bluetooth Earphones',
+          imageUrl: 'https://i.ibb.co/4W2DGKm/floral-blouse.png',
+          price: 44,
         },
       ],
     },
