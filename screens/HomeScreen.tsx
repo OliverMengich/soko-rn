@@ -24,6 +24,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Octicons from 'react-native-vector-icons/Octicons';
 import { RootStackParamList } from '../App';
 import type {NativeStackScreenProps } from '@react-navigation/native-stack';
+import RatingComponent from '../components/RatingComponent.component';
 type Props = NativeStackScreenProps<RootStackParamList, 'HomeScreen'>;
 interface Item {id: string,imageUrl: string,price: number, title: string}
 function HomeScreen({navigation}: Props): JSX.Element {
@@ -55,7 +56,7 @@ function HomeScreen({navigation}: Props): JSX.Element {
                 backgroundColor={'#ccc'}
             />
             <View>
-                <ImageBackground imageStyle={{backgroundColor: '#ccc'}} resizeMode="stretch" style={{height: width*1, position: 'relative'}}  source={require('../assets/barner.png')}>
+                <ImageBackground imageStyle={{backgroundColor: '#ccc'}} resizeMode="stretch" style={{height: width*1, paddingTop:10, position: 'relative'}}  source={require('../assets/barner.png')}>
                     <View style={styles.navContainer}>
                         <Image
                             resizeMode="contain"
@@ -64,7 +65,12 @@ function HomeScreen({navigation}: Props): JSX.Element {
                         />
                         <View style={styles.rowContainer}>
                             <Icon name={'shopping-outline'} style={{marginHorizontal: 10}} size={23} color={'black'} />
-                            <Octicons name={'search'} style={{marginHorizontal: 10}} size={23} color={'black'} />
+                            <View style={{position: 'relative'}}>
+                                <Octicons name={'bell'} style={{marginHorizontal: 10}} size={23} color={'black'} />
+                                <View style={{position:'absolute', top: -6, right: 4, backgroundColor: 'red', borderRadius: 15, width: 15, height: 15, alignItems:'center', justifyContent:'center'}}>
+                                    <Text style={{color:'#fff',fontWeight: 'bold', fontSize: 10}}>8</Text>
+                                </View>
+                            </View>
                         </View>
                     </View>
                     <View style={{position: 'absolute', bottom: 10, left:width*.2}}>
@@ -86,7 +92,7 @@ function HomeScreen({navigation}: Props): JSX.Element {
             </View>
             <View style={[styles.rowContainer,{marginVertical: 15,marginHorizontal: 17}]}>
                 <Text style={[styles.boldText,{fontSize: 20}]}>Categories</Text>
-                <Pressable>
+                <Pressable onPress={()=>{navigation.navigate('AllCategoriesScreen');}} android_ripple={{color: '#f5f5f5'}}>
                     <Text style={styles.moreText}>Show all</Text>
                 </Pressable>
             </View>
@@ -162,6 +168,9 @@ function HomeScreen({navigation}: Props): JSX.Element {
                                             }}
                                         />
                                         <Text style={{fontSize:15, fontWeight: '600',color:'#000'}}>{val.item.name.slice(0,10)}...</Text>
+                                        <View >
+                                            <RatingComponent rating={4.5} />
+                                        </View>
                                         <Text style={[styles.normalText, {color:'#000'}]}>${val.item.price}</Text>
                                     </Pressable>
                                 );
