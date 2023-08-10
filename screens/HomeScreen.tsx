@@ -24,12 +24,11 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Octicons from 'react-native-vector-icons/Octicons';
 import { RootStackParamList } from '../App';
 import type {NativeStackScreenProps } from '@react-navigation/native-stack';
-import RatingComponent from '../components/RatingComponent.component';
-type Props = NativeStackScreenProps<RootStackParamList, 'HomeScreen'>;
+import ProductItemComponent from '../components/ProductItem.component';
+type Props = NativeStackScreenProps<RootStackParamList, 'HomeTabScreen'>;
 interface Item {id: string,imageUrl: string,price: number, title: string}
 function HomeScreen({navigation}: Props): JSX.Element {
-    // const navigation = useNavigation();
-    const isDarkMode = useColorScheme() === 'dark';
+   const isDarkMode = useColorScheme() === 'dark';
     const POPULAR_ITEMS: Item[] = SHOP_DATA.reduce((acc:Item[], collection) => {
         acc.push({
             imageUrl: collection.items[0].imageUrl,
@@ -65,12 +64,12 @@ function HomeScreen({navigation}: Props): JSX.Element {
                         />
                         <View style={styles.rowContainer}>
                             <Icon name={'shopping-outline'} style={{marginHorizontal: 10}} size={23} color={'black'} />
-                            <View style={{position: 'relative'}}>
+                            <Pressable onPress={()=>navigation.navigate('NotificationsScreen')} android_ripple={{color: '#f5f5f5'}} style={{position: 'relative'}}>
                                 <Octicons name={'bell'} style={{marginHorizontal: 10}} size={23} color={'black'} />
                                 <View style={{position:'absolute', top: -6, right: 4, backgroundColor: 'red', borderRadius: 15, width: 15, height: 15, alignItems:'center', justifyContent:'center'}}>
                                     <Text style={{color:'#fff',fontWeight: 'bold', fontSize: 10}}>8</Text>
                                 </View>
-                            </View>
+                            </Pressable>
                         </View>
                     </View>
                     <View style={{position: 'absolute', bottom: 10, left:width*.2}}>
@@ -128,19 +127,13 @@ function HomeScreen({navigation}: Props): JSX.Element {
                 <FlatList
                     data={POPULAR_ITEMS}
                     renderItem={({item}) => (
-                        <View style={{marginRight: width * .1,width: width*.35, borderRadius: 10, backgroundColor: '#f5f5f5'}}>
-                            <Image
-                                // resizeMode="contain"
-                                style={{height: 100, width: width*.35}}
-                                source={{
-                                    uri: item.imageUrl,
-                                    method: 'GET',
-                                    // width: 50,
-                                }}
-                            />
-                            <Text style={{fontSize:15, fontWeight: '600',color:'#000'}}>{item.title.slice(0,10)}...</Text>
-                            <Text style={[styles.normalText, {color:'#000'}]}>${item.price}</Text>
-                        </View>
+                        <ProductItemComponent
+                            id={item.id}
+                            handleProductDetailNav={handleProductDetailNav}
+                            imageUrl={item.imageUrl}
+                            name={item.title}
+                            price={item.price}
+                        />
                     )}
                     keyExtractor={item => item.id}
                     horizontal={true}
@@ -158,21 +151,13 @@ function HomeScreen({navigation}: Props): JSX.Element {
                             data={item.items}
                             renderItem={(val)=>{
                                 return (
-                                    <Pressable onPress={()=>handleProductDetailNav(val.item.id)} style={{marginRight: width*.1, paddingBottom: 10,borderRadius: 5, backgroundColor: '#f5f5f5', width: width*.35}}>
-                                        <Image
-                                            // resizeMode="contain"
-                                            style={{height: 100,borderTopLeftRadius:10, width: '100%'}}
-                                            source={{
-                                                uri: val.item.imageUrl,
-                                                method: 'GET',
-                                            }}
-                                        />
-                                        <Text style={{fontSize:15, fontWeight: '600',color:'#000'}}>{val.item.name.slice(0,10)}...</Text>
-                                        <View >
-                                            <RatingComponent rating={4.5} />
-                                        </View>
-                                        <Text style={[styles.normalText, {color:'#000'}]}>${val.item.price}</Text>
-                                    </Pressable>
+                                    <ProductItemComponent
+                                        id={val.item.id}
+                                        price={val.item.price}
+                                        handleProductDetailNav={handleProductDetailNav}
+                                        imageUrl={val.item.imageUrl}
+                                        name={val.item.name}
+                                    />
                                 );
                             }}
                             horizontal={true}
