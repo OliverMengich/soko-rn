@@ -20,14 +20,16 @@ import LoginScreen from './screens/LoginScreen';
 import CategoryScreen from './screens/CategoryScreen';
 import ProductDetail from './screens/ProductDetail';
 import AllCategoriesScreen from './screens/AllCategoriesScreen';
+import NotificationsScreen from './screens/NotificationsScreen';
 export type RootStackParamList = {
-    HomeScreen: undefined;
+    HomeTabScreen: undefined;
     CategoryScreen: {id: string};
     LoginScreen: undefined;
 	ProductDetail: {id: number};
 	AllCategoriesScreen: undefined;
+	NotificationsScreen: undefined
 };
-type TabStackParamList = {
+export type TabStackParamList = {
 	HomeScreen: undefined;
 	Cart: undefined;
 	UserProfile: undefined;
@@ -74,13 +76,14 @@ function App(): JSX.Element {
 	return (
 		<NavigationContainer>
 			<SafeAreaView style={backgroundStyle}>
-					<Stack.Navigator screenOptions={{headerShown: false}}>
-						<Stack.Screen name={'HomeScreen'} component={TabNavigator}/>
-						<Stack.Screen name={'LoginScreen'} component={LoginScreen}/>
-						<Stack.Screen options={{headerShown: false}} name={'CategoryScreen'} component={CategoryScreen}/>
-						<Stack.Screen options={{headerShown: true}} name={'ProductDetail'} component={ProductDetail}/>
-						<Stack.Screen options={{headerShown: false}} name={'AllCategoriesScreen'} component={AllCategoriesScreen}/>
-					</Stack.Navigator>
+				<Stack.Navigator screenOptions={{headerShown: false}}>
+					<Stack.Screen name={'HomeTabScreen'} component={TabNavigator}/>
+					<Stack.Screen name={'LoginScreen'} component={LoginScreen}/>
+					<Stack.Screen options={{headerShown: false}} name={'CategoryScreen'} component={CategoryScreen}/>
+					<Stack.Screen options={{headerShown: true}} name={'ProductDetail'} component={ProductDetail}/>
+					<Stack.Screen options={{headerShown: false}} name={'AllCategoriesScreen'} component={AllCategoriesScreen}/>
+					<Stack.Screen options={{headerShown: true}} name={'NotificationsScreen'} component={NotificationsScreen}/>
+				</Stack.Navigator>
 				</SafeAreaView>
 		</NavigationContainer>
   );
