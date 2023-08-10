@@ -7,7 +7,7 @@ import React from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 function RatingComponent({rating}: Props) {
     const ratingArr = [1,4,5,7,9];
-    console.log(rating % 2 === 0);
+    // console.log(rating % 2 === 0);
     return (
         <View style={styles.container}>
             {
