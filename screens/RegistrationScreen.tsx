@@ -13,6 +13,7 @@ import {
     Dimensions,
     StyleSheet,
     StatusBar,
+	Image,
 	useColorScheme,
 } from 'react-native';
 const {width,height} = Dimensions.get('window');
@@ -22,7 +23,7 @@ interface TextInputProps {
 function CustomTextInput({placeholder}:TextInputProps) {
 	return (
 		<TextInput 
-			placeholderTextColor={'white'} 
+			placeholderTextColor={'black'} 
 			placeholder={placeholder} 
 			style={styles.textInputStyle}
 			accessibilityViewIsModal
@@ -39,7 +40,9 @@ function RegistrationScreen() {
 			/>
             <View style={styles.backgroundContainer}>
                     <View style={{position:'absolute',top: -350}}>
-                        <Text style={styles.sectionTitle}>Soko Supermarket</Text>
+						<Image style={{height:200,width:200,overflow:'hidden', alignSelf: 'center', borderWidth: 1, borderColor:'#000',borderRadius:100}} source={require('../assets/user-cart.png')} />
+                    
+						<Text style={styles.sectionTitle}>Soko Supermarket</Text>
 						<CustomTextInput placeholder={'First Name'}/>
 						<CustomTextInput placeholder={'Last Name'}/>
 						<CustomTextInput placeholder={'Email'}/>
@@ -77,15 +80,16 @@ const styles = StyleSheet.create({
 		fontSize: 24,
 		fontWeight: '900',
 		textAlign: 'center',
-		marginVertical: 10,
+		marginVertical: 1,
+		color: 'black',
 	},
 	textInputStyle:{
-		fontWeight:'bold',
-		fontSize:20,
-		borderBottomColor:'#000',
-		borderBottomWidth:2,
+		fontWeight: 'bold',
+		fontSize: 15,
+		borderBottomColor: '#000',
+		borderBottomWidth: 2,
 		width: width * .8,
-		color: 'white',
+		color: 'black',
 		// marginTop:4,
 	},
 	button:{

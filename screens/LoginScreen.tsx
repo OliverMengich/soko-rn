@@ -8,20 +8,19 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
 import React from 'react';
 import {
-	// Image,
+	Image,
     View,
 	Pressable,
-	// SafeAreaView,
-	// ScrollView,
-	// StatusBar,
 	Text,
 	TextInput,
     Dimensions,
     StyleSheet,
     StatusBar,
 	useColorScheme,
-	// useColorScheme,
 } from 'react-native';
+import { RootStackParamList } from '../App';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+type Props = NativeStackScreenProps<RootStackParamList, 'LoginScreen'>
 const {width,height} = Dimensions.get('window');
 interface TextInputProps {
 	placeholder: string;
@@ -29,16 +28,19 @@ interface TextInputProps {
 function CustomTextInput({placeholder}:TextInputProps) {
 	return (
 		<TextInput 
-			placeholderTextColor={'white'} 
+			placeholderTextColor={'black'} 
 			placeholder={placeholder} 
 			style={styles.textInputStyle}
 			accessibilityViewIsModal
 		/>
 	);
 }
-function LoginScreen() {
+function LoginScreen({navigation}: Props) {
 
 	const isDarkMode = useColorScheme() === 'dark';
+	function handleLogin(){
+		navigation.navigate('HomeTabScreen');
+	}
     return (
         <View style={{flex:1}}>
             <StatusBar
@@ -47,11 +49,11 @@ function LoginScreen() {
 			/>
             <View style={styles.backgroundContainer}>
                     <View style={{position:'absolute',top: -350}}>
-                        {/* <Image style={{height:200,width:200,overflow:'hidden', borderWidth:1, borderColor:'#000',borderRadius:100}} source={require('./assets/oliverimg.png')} /> */}
-                        <Text style={styles.sectionTitle}>Soko Supermarket</Text>
+                        <Image style={{height:200,width:200,overflow:'hidden', alignSelf: 'center', borderWidth: 1, borderColor:'#000',borderRadius:100}} source={require('../assets/user-cart.png')} />
+						<Text style={styles.sectionTitle}>Soko Supermarket</Text>
 						<CustomTextInput placeholder={'Email'}/>
 						<CustomTextInput placeholder={'Password'}/>
-                        <Pressable style={styles.button}>
+                        <Pressable android_ripple={{color: '#f5f5f5'}} onPress={handleLogin} style={styles.button}>
                             <Text style={styles.buttonText}>LOGIN</Text>
                         </Pressable>
                         <Text style={{color:'blue', alignSelf: 'center'}}>Forgot password?</Text>
@@ -68,21 +70,21 @@ const styles = StyleSheet.create({
 		borderTopColor:'red',
 		borderTopWidth:height / 2,
 		borderRightWidth: width,
-		borderRightColor:'#fff',
+		borderRightColor:'white',
 		alignItems:'center',
 		justifyContent:'center',
 	},
 	redBg:{
 		flex: 1,
-		backgroundColor: 'red',
+		// backgroundColor: 'red',
 		transform: [{ rotateX: '5deg' }],
 	},
 	whiteBg:{
 		flex: 1,
-    	backgroundColor: 'white',
+    	// backgroundColor: 'white',
 	},
 	textInputStyle:{
-		fontWeight:'bold',
+		// fontWeight:'bold',
 		fontSize:20,
 		borderBottomColor:'#000',
 		borderBottomWidth:2,
@@ -95,6 +97,7 @@ const styles = StyleSheet.create({
 		fontWeight: '900',
 		textAlign: 'center',
 		marginVertical: 10,
+		color: 'black',
 	},
 	button:{
 		backgroundColor:'red',
