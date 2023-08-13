@@ -25,6 +25,7 @@ import Octicons from 'react-native-vector-icons/Octicons';
 import { RootStackParamList } from '../App';
 import type {NativeStackScreenProps } from '@react-navigation/native-stack';
 import ProductItemComponent from '../components/ProductItem.component';
+import CarouselComponent from '../components/Carousel.component';
 type Props = NativeStackScreenProps<RootStackParamList, 'HomeTabScreen'>;
 interface Item {id: string,imageUrl: string,price: number, title: string}
 function HomeScreen({navigation}: Props): JSX.Element {
@@ -95,6 +96,7 @@ function HomeScreen({navigation}: Props): JSX.Element {
                     <Text style={styles.moreText}>Show all</Text>
                 </Pressable>
             </View>
+            
             <View style={[styles.itemsContainer,{marginHorizontal:7}]}>
                 <FlatList
                     data={SHOP_DATA}
@@ -119,6 +121,13 @@ function HomeScreen({navigation}: Props): JSX.Element {
                     horizontal={true}
                 />
             </View>
+            <View>
+                <View style={[styles.rowContainer,{marginVertical:10,marginHorizontal:17}]}>
+                    <Text style={[styles.boldText,{fontSize: 20}]}>Featured Products</Text>
+                    <Text style={styles.moreText}>Show all</Text>
+                </View>
+                <CarouselComponent/>    
+            </View>
             <View style={[styles.rowContainer,{marginVertical:10,marginHorizontal:17}]}>
                 <Text style={[styles.boldText,{fontSize: 20}]}>Popular</Text>
                 <Text style={styles.moreText}>Show all</Text>
@@ -139,7 +148,8 @@ function HomeScreen({navigation}: Props): JSX.Element {
                     horizontal={true}
                 />
             </View>
-            <FlatList
+            
+            {/* <FlatList
                 data={SHOP_DATA}
                 renderItem={({item})=>(
                     <View style={[{marginHorizontal:7, width: '100%'}]}>
@@ -164,7 +174,7 @@ function HomeScreen({navigation}: Props): JSX.Element {
                         />
                     </View>
                 )}
-            />
+            /> */}
         </ScrollView>
     );
 }
