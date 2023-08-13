@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
         marginRight: width * 0.1,
         paddingBottom: 10,
         borderRadius: 5,
-        backgroundColor: '#ccc',
+        backgroundColor: '#f5f5f5',
         width: width * 0.35,
     },
 });
