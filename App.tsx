@@ -1,5 +1,3 @@
-/* eslint-disable react/no-unstable-nested-components */
-// /* eslint-disable prettier/prettier */
 /**
  * Sample React Native App
  * https://github.com/facebook/react-native
@@ -8,14 +6,13 @@
  */
 import React from 'react';
 import { SafeAreaView, useColorScheme} from 'react-native';
-// import HomeScreen from './screens/HomeScreen';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from './screens/HomeScreen';
 import Cart from './screens/Cart';
 import UserProfile from './screens/UserProfile';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { NativeStackScreenProps, createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginScreen from './screens/LoginScreen';
 import CategoryScreen from './screens/CategoryScreen';
 import ProductDetail from './screens/ProductDetail';
@@ -37,6 +34,7 @@ export type TabStackParamList = {
 	HomeScreen: undefined;
 	Cart: undefined;
 	UserProfile: undefined;
+	Categories: undefined;
 };
 const Tab = createBottomTabNavigator<TabStackParamList>();
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -53,6 +51,13 @@ function TabNavigator (){
 					tabBarIcon:({focused}) => <TabBarIcon focused={focused} name={'home'} size={23} />,
 				}}
 			/>
+			<Tab.Screen 
+				name="Categories"
+				options={{
+					tabBarIcon: ({focused})=> <TabBarIcon focused={focused} name={'menu'} size={23} />,
+				}}
+				component={AllCategoriesScreen}
+			/>
 			<Tab.Screen name="Cart"
 				component={Cart}
 				options={{
@@ -65,7 +70,7 @@ function TabNavigator (){
 				}}
 				component={UserProfile}
 			/>
-
+			
 		</Tab.Navigator>
 	);
 }
