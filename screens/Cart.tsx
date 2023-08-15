@@ -5,17 +5,18 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import type {NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../App';
 import { Dimensions } from 'react-native';
+import { COLORS } from '../constants';
 type Props = NativeStackScreenProps<RootStackParamList, 'HomeTabScreen'>;
 const {width} = Dimensions.get('window')
 function Cart({navigation}: Props) {
     const isDarkMode = useColorScheme() === 'dark';
     return (
-        <View style={{flex:1,position: 'relative'}}>
+        <View style={{flex:1,backgroundColor:isDarkMode?COLORS.darkBackground:'#ccc', position: 'relative'}}>
             <StatusBar
                 barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-                backgroundColor={'#ccc'}
+                backgroundColor={isDarkMode? COLORS.darkBackground:'#ccc'}
             />
-            <View style={{flexDirection: 'row',marginTop: 20, alignItems: 'center', marginHorizontal: 20, justifyContent: 'space-between'}}>
+            <View style={{ flexDirection: 'row',marginTop: 20, alignItems: 'center', marginHorizontal: 20, justifyContent: 'space-between'}}>
                 <Text style={styles.textColor}>Cart</Text>
                 <Pressable onPress={()=>navigation.navigate('NotificationsScreen')} android_ripple={{color: '#f5f5f5'}} style={{position: 'relative'}}>
                     <Icon name={'shopping-outline'} style={{marginHorizontal: 10}} size={23} color={'black'} />
@@ -25,7 +26,7 @@ function Cart({navigation}: Props) {
                 </Pressable>
             </View>
             <View >
-                <View style={[styles.row,{backgroundColor: '#fff', marginHorizontal:20,padding:10,borderRadius:10,}]}>
+                <View style={[styles.row,{backgroundColor:'#fff', marginHorizontal:20,padding:10,borderRadius:10,}]}>
                     <View style={{flexDirection: 'row', alignItems: 'center',}}>
                         <Image source={require('../assets/oliverimg.png')} style={{width: 60, height: 60,borderWidth:.5, borderRadius: 30}} />
                         <View >
@@ -53,23 +54,23 @@ function Cart({navigation}: Props) {
                     </View>
                 </View>
             </View>
-            <View style={{position: 'absolute', bottom:0, width, backgroundColor: '#fff'}}>
+            <View style={{position: 'absolute', bottom:0, width, backgroundColor:isDarkMode?COLORS.darkBackground: '#fff'}}>
                 <View style={{flexDirection: 'row', backgroundColor: '#f5f5f5',borderRadius:20,paddingHorizontal:20,marginTop:20, justifyContent: 'space-between', marginHorizontal: 20, alignItems: 'center'}}>
-                    <TextInput placeholder='Enter Coupon Code' />
+                    <TextInput placeholderTextColor={'#000'} placeholder='Enter Coupon Code' />
                     <Pressable>
                         <Text style={styles.priceText}>Apply</Text>
                     </Pressable>
                 </View>
-                <View style={{flexDirection: 'row',borderBottomWidth: .5,paddingVertical:5, justifyContent: 'space-between', marginHorizontal: 20, marginVertical: 10}}>
-                    <Text style={[{fontSize:16, fontWeight: 'bold', color: 'black'}]}>Subtotal</Text>
+                <View style={{flexDirection: 'row', borderColor: isDarkMode?'#fff':'#000', borderBottomWidth:  .9,paddingVertical:5, justifyContent: 'space-between', marginHorizontal: 20, marginVertical: 10}}>
+                    <Text style={[{fontSize:16, fontWeight: 'bold', color:isDarkMode?'#fff': 'black'}]}>Subtotal</Text>
                     <Text style={[styles.priceText,{fontSize:16}]}>$ 3.99</Text>
                 </View>
-                <View style={{flexDirection: 'row',borderBottomWidth: .5,paddingVertical:5, justifyContent: 'space-between', marginHorizontal: 20, marginVertical: 10}}>
-                    <Text style={[{fontSize:16, fontWeight: 'bold', color: 'black'}]}>Shipping</Text>
+                <View style={{flexDirection: 'row',borderColor: isDarkMode?'#fff':'#000', borderBottomWidth:  .9,paddingVertical:5, justifyContent: 'space-between', marginHorizontal: 20, marginVertical: 10}}>
+                    <Text style={[{fontSize:16, fontWeight: 'bold', color:isDarkMode?'#fff': 'black'}]}>Shipping</Text>
                     <Text style={[styles.priceText,{fontSize:20}]}>$ 0.99</Text>
                 </View>
                 <View style={{flexDirection: 'row',paddingVertical:5, justifyContent: 'space-between', marginHorizontal: 20, marginVertical: 10}}>
-                    <Text style={[{fontSize:16, fontWeight: 'bold', color: 'black'}]}>Total</Text>
+                    <Text style={[{fontSize:16, fontWeight: 'bold', color:isDarkMode?'#fff': 'black'}]}>Total</Text>
                     <Text style={[styles.priceText,{fontSize:20}]}>$ 5.00</Text>
                 </View>
                 <Pressable onPress={()=>{}} android_ripple={{color: '#f5f5f5'}} style={{backgroundColor: 'red', marginHorizontal: 30, marginVertical: 20, padding: 10, borderRadius: 20, alignItems: 'center'}}>
@@ -90,6 +91,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between',
     },
-    priceText: {fontWeight: 'bold', color: 'red', textTransform: 'uppercase'}
+    priceText: {
+        fontWeight: 'bold',
+        color: 'red',
+        textTransform: 'uppercase',
+    }
 });
 export default Cart;

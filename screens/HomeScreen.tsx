@@ -50,29 +50,29 @@ function HomeScreen({navigation}: Props): JSX.Element {
         });
     }
     return (
-        <ScrollView style={{flex:1}}>
+        <ScrollView style={[styles.container,isDarkMode?{backgroundColor:'#0f172a'}:{backgroundColor:'#f5f5f5'}]}>
             <StatusBar
                 barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-                backgroundColor={'#ccc'}
+                backgroundColor={isDarkMode? '#0f172a':'#ccc'}
             />
             <View>
-                <ImageBackground imageStyle={{backgroundColor: '#ccc'}} resizeMode="stretch" style={{height: width*1, paddingTop:10, position: 'relative'}}  source={require('../assets/barner.png')}>
-                    <View style={styles.navContainer}>
-                        <Image
-                            resizeMode="contain"
-                            style={{ alignSelf: 'center',borderRadius: 20, height: 25,width:25}}
-                            source={require('../assets/oliverimg.png')}
-                        />
-                        <View style={styles.rowContainer}>
-                            <Icon name={'shopping-outline'} style={{marginHorizontal: 10}} size={23} color={'black'} />
-                            <Pressable onPress={()=>navigation.navigate('NotificationsScreen')} android_ripple={{color: '#f5f5f5'}} style={{position: 'relative'}}>
-                                <Octicons name={'bell'} style={{marginHorizontal: 10}} size={23} color={'black'} />
-                                <View style={{position:'absolute', top: -6, right: 4, backgroundColor: 'red', borderRadius: 15, width: 15, height: 15, alignItems:'center', justifyContent:'center'}}>
-                                    <Text style={{color:'#fff',fontWeight: 'bold', fontSize: 10}}>8</Text>
-                                </View>
-                            </Pressable>
-                        </View>
+                <View style={[styles.navContainer,{backgroundColor:isDarkMode? '#0f172a':'#ccc'}]}>
+                    <Image
+                        resizeMode="contain"
+                        style={{ alignSelf: 'center',borderRadius: 20, height: 25,width:25}}
+                        source={require('../assets/oliverimg.png')}
+                    />
+                    <View style={styles.rowContainer}>
+                        <Icon name={'shopping-outline'} style={{marginHorizontal: 10}} size={23} color={isDarkMode?'#fff':'black'} />
+                        <Pressable onPress={()=>navigation.navigate('NotificationsScreen')} android_ripple={{color: '#f5f5f5'}} style={{position: 'relative'}}>
+                            <Octicons name={'bell'} style={{marginHorizontal: 10}} size={23} color={isDarkMode?'#fff':'black'} />
+                            <View style={{position:'absolute', top: -6, right: 4, backgroundColor: 'red', borderRadius: 15, width: 15, height: 15, alignItems:'center', justifyContent:'center'}}>
+                                <Text style={{color:'#fff',fontWeight: 'bold', fontSize: 10}}>8</Text>
+                            </View>
+                        </Pressable>
                     </View>
+                </View>
+                <ImageBackground imageStyle={isDarkMode? {backgroundColor:'#0f172a'}:{backgroundColor: '#ccc'}} resizeMode="stretch" style={{height: width*1, paddingTop:10, position: 'relative'}}  source={require('../assets/barner.png')}>
                     <View style={{position: 'absolute', bottom: 10, left:width*.2}}>
                         <Text style={[styles.normalText,{color: '#fff'}]}>Healthy Mondays</Text>
                         <Text style={[styles.boldText,{color: '#fff'}]}>Get Up to 70% off for everything</Text>
@@ -80,18 +80,17 @@ function HomeScreen({navigation}: Props): JSX.Element {
                             <Text style={{textAlign:'center',fontWeight:'bold',color:'#fff'}}>Shop Now</Text>
                         </Pressable>
                         <View style={{flexDirection: 'row',justifyContent: 'center', alignItems: 'center'}}>
-                                <Text style={styles.notCurrentDiv}>.</Text>
-                                <Text style={styles.notCurrentDiv}>.</Text>
-                                <Text style={[styles.notCurrentDiv,{ width: 20}]}>.</Text>
-                                <Text style={styles.notCurrentDiv}>.</Text>
-                                <Text style={styles.notCurrentDiv}>.</Text>
-                            </View>
-
+                                <Text style={[styles.notCurrentDiv,isDarkMode&&{backgroundColor:'#fff'}]}>.</Text>
+                                <Text style={[styles.notCurrentDiv,isDarkMode&&{backgroundColor:'#fff'}]}>.</Text>
+                                <Text style={[styles.notCurrentDiv,isDarkMode&&{backgroundColor:'#fff'},{ width: 20}]}>.</Text>
+                                <Text style={[styles.notCurrentDiv,isDarkMode&&{backgroundColor:'#fff'}]}>.</Text>
+                                <Text style={[styles.notCurrentDiv,isDarkMode&&{backgroundColor:'#fff'}]}>.</Text>
                         </View>
+                    </View>
                 </ImageBackground>
             </View>
             <View style={[styles.rowContainer,{marginVertical: 15,marginHorizontal: 17}]}>
-                <Text style={[styles.boldText,{fontSize: 20}]}>Categories</Text>
+                <Text style={[styles.boldText,isDarkMode? {fontSize: 20, color:'#fff'}:{fontSize: 20}]}>Categories</Text>
                 <Pressable onPress={()=>{navigation.navigate('AllCategoriesScreen');}} android_ripple={{color: '#f5f5f5'}}>
                     <Text style={styles.moreText}>Show all</Text>
                 </Pressable>
@@ -102,10 +101,10 @@ function HomeScreen({navigation}: Props): JSX.Element {
                     data={SHOP_DATA}
                     renderItem={({item}) => (
                         <View style={{ borderRadius: 50, width: 100, height: 100,overflow: Platform.OS ==='android'? 'hidden':'visible'}}>
-                            <Pressable onPress={()=>handleNavigation(item.id)} android_ripple={{color: '#ccc'}} style={{marginRight: width * .1, backgroundColor: '#f5f5f5',padding: 10,borderRadius: 50, width: 100, height: 100, alignItems: 'center'}}>
+                            <Pressable onPress={()=>handleNavigation(item.id)} android_ripple={{color: '#ccc'}} style={[styles.categoryStyle, isDarkMode &&{borderColor:'#304d5d', backgroundColor: '#000'}]}>
                                 <Image
                                     resizeMode="contain"
-                                    style={{ alignSelf: 'center',height: 50,width:50}}
+                                    style={[styles.categoryImageStyle,isDarkMode &&{tintColor: '#fff'}]}
                                     source={{
                                         uri: item.imageUrl,
                                         headers:{
@@ -113,7 +112,7 @@ function HomeScreen({navigation}: Props): JSX.Element {
                                         },
                                     }}
                                 />
-                                <Text style={{fontSize:15, fontWeight: '600',color:'#000'}}>{item.title}</Text>
+                                <Text style={isDarkMode? {fontSize:15, fontWeight: '600',color:'#fff'}:{fontSize:15, fontWeight: '600',color:'#000'}}>{item.title}</Text>
                             </Pressable>
                         </View>
                     )}
@@ -123,13 +122,13 @@ function HomeScreen({navigation}: Props): JSX.Element {
             </View>
             <View>
                 <View style={[styles.rowContainer,{marginVertical:10,marginHorizontal:17}]}>
-                    <Text style={[styles.boldText,{fontSize: 20}]}>Featured Products</Text>
+                    <Text style={[styles.boldText,isDarkMode? {fontSize: 20, color:'#fff'}:{fontSize: 20}]}>Featured Products</Text>
                     <Text style={styles.moreText}>Show all</Text>
                 </View>
                 <CarouselComponent/>    
             </View>
             <View style={[styles.rowContainer,{marginVertical:10,marginHorizontal:17}]}>
-                <Text style={[styles.boldText,{fontSize: 20}]}>Popular</Text>
+                <Text style={[styles.boldText,isDarkMode? {fontSize: 20, color:'#fff'}:{fontSize: 20}]}>Popular</Text>
                 <Text style={styles.moreText}>Show all</Text>
             </View>
             <View style={[styles.itemsContainer,{marginVertical: 20,marginHorizontal:7}]}>
@@ -181,18 +180,32 @@ function HomeScreen({navigation}: Props): JSX.Element {
 const styles = StyleSheet.create({
     container:{
         flex:1,
-        backgroundColor:'#fff',
+        // backgroundColor:'#0f172a',
     },
     navContainer:{
         flexDirection:'row',
         alignItems:'center',
         justifyContent:'space-between',
         paddingHorizontal:17,
+        paddingTop:6,
     },
     rowContainer:{
         flexDirection:'row',
         alignItems:'center',
         justifyContent:'space-between',
+    },
+    categoryStyle: {
+        marginRight: width * .1, 
+        backgroundColor: '#f5f5f5',
+        padding: 10,
+        borderRadius: 50, 
+        width: 100, height: 100, 
+        alignItems: 'center',
+    },
+    categoryImageStyle: { 
+        alignSelf: 'center', 
+        height: 50,
+        width:50
     },
     button:{
 		backgroundColor:'red',

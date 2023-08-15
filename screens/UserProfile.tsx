@@ -1,18 +1,25 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import {View, Text, Pressable, StyleSheet, Image } from 'react-native';
+import {View, Text, Pressable,useColorScheme, StyleSheet, Image } from 'react-native';
 import { RootStackParamList } from '../App';
 import type {NativeStackScreenProps } from '@react-navigation/native-stack';
 type Props = NativeStackScreenProps<RootStackParamList, 'HomeTabScreen'>;
 import Octicons from 'react-native-vector-icons/Octicons';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { COLORS } from '../constants';
+import { StatusBar } from 'react-native';
 function UserProfile({navigation}: Props) {
+    const isDarkMode = useColorScheme()==='dark';
     return (
-        <View style={{flex:1, marginTop:20}}>
+        <View style={[{flex:1, paddingTop:20},isDarkMode&&{backgroundColor:COLORS.darkBackground}]}>
+            <StatusBar
+                barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+                backgroundColor={isDarkMode? '#0f172a':'#ccc'}
+            />
             <View style={{flexDirection: 'row',marginTop: 20, alignItems: 'center', marginHorizontal: 20, justifyContent: 'space-between'}}>
-                <Text style={styles.textColor}>Profile</Text>
+                <Text style={[styles.textColor,{color:isDarkMode?'#fff':'#000'}]}>Profile</Text>
                 <Pressable onPress={()=>navigation.navigate('NotificationsScreen')} android_ripple={{color: '#f5f5f5'}} style={{position: 'relative'}}>
-                    <Octicons name={'bell'} style={{marginHorizontal: 10}} size={23} color={'black'} />
+                    <Octicons name={'bell'} style={{marginHorizontal: 10}} size={23} color={isDarkMode?'#fff':'#000'} />
                     <View style={{position:'absolute', top: -6, right: 4, backgroundColor: 'red', borderRadius: 15, width: 15, height: 15, alignItems:'center', justifyContent:'center'}}>
                         <Text style={{color:'#fff',fontWeight: 'bold', fontSize: 10}}>8</Text>
                     </View>
@@ -29,50 +36,49 @@ function UserProfile({navigation}: Props) {
                 <Icon name='chevron-right' size={30}/>
             </View>
             <View style={{marginHorizontal: 20, marginTop: 20,}}>
-                <Text style={[styles.textColor,]}>Settings</Text>
-                <View style={[styles.row,{marginVertical: 10,paddingVertical:8, borderBottomWidth:.5}]}>
+                <Text style={[styles.textColor,{color:isDarkMode?'#fff':'#000'}]}>Settings</Text>
+                <View style={[styles.row,{marginVertical: 10,paddingVertical:8, borderColor: isDarkMode?'#fff':'#000', borderBottomWidth:  .9}]}>
                     <View style={{flexDirection: 'row',alignItems: 'center' }}>
-                        <Icon name={'shopping-outline'} style={{marginHorizontal: 10}} size={23} color={'black'} />
+                        <Icon name={'shopping-outline'} style={[styles.iconStyle,isDarkMode&&{color:'#fff'}]} size={23} color={'black'} />
                         <Text>My Orders</Text>
                     </View>
                     <Icon name='chevron-right' size={30}/>
                 </View>
-                <View style={[styles.row,{marginVertical: 10,paddingVertical:8, borderBottomWidth:.5}]}>
+                <View style={[styles.row,{marginVertical: 10,paddingVertical:8, borderColor: isDarkMode?'#fff':'#000', borderBottomWidth:  .9}]}>
                     <View style={{flexDirection: 'row',alignItems: 'center' }}>
-                        {/* <Octicons name={'credit-card'} style={{marginHorizontal: 10}} size={23} color={'black'} /> */}
-                        <Octicons name={'location'} style={{marginHorizontal: 10}} size={23} color={'black'} />
+                        <Octicons name={'location'} style={[styles.iconStyle,isDarkMode&&{color:'#fff'}]} size={23} color={'black'} />
                         {/* <Icon name={'shopping-outline'} style={{marginHorizontal: 10}} size={23} color={'black'} /> */}
                         <Text>My Address</Text>
                     </View>
                     <Icon name='chevron-right' size={30}/>
                 </View>
-                <View style={[styles.row,{marginVertical: 10,paddingVertical:8, borderBottomWidth:.5}]}>
+                <View style={[styles.row,{marginVertical: 10,paddingVertical:8, borderColor: isDarkMode?'#fff':'#000', borderBottomWidth:  .9}]}>
                     <View style={{flexDirection: 'row',alignItems: 'center' }}>
-                        <Icon name={'heart'} style={{marginHorizontal: 10}} size={23} color={'black'} />
+                        <Icon name={'heart'} style={[styles.iconStyle,isDarkMode&&{color:'#fff'}]} size={23} color={'black'} />
                         <Text>My Wishlist</Text>
                     </View>
                     <Icon name='chevron-right' size={30}/>
                 </View>
-                <View style={[styles.row,{marginVertical: 10,paddingVertical:8, borderBottomWidth:.5}]}>
+                <View style={[styles.row,{marginVertical: 10,paddingVertical:8,borderColor: isDarkMode?'#fff':'#000', borderBottomWidth:  .9}]}>
                     <View style={{flexDirection: 'row',alignItems: 'center' }}>
-                        <Icon name={'comment-multiple-outline'} style={{marginHorizontal: 10}} size={23} color={'black'} />
+                        <Icon name={'comment-multiple-outline'} style={[styles.iconStyle,isDarkMode&&{color:'#fff'}]} size={23} color={'black'} />
                         <Text>My Reviews</Text>
                     </View>
                     <Icon name='chevron-right' size={30}/>
                 </View>
             </View>
             <View style={{marginHorizontal: 20, marginTop: 20,}}>
-                <Text style={[styles.textColor,]}>Support</Text>
-                <View style={[styles.row,{marginVertical: 10,paddingVertical:8, borderBottomWidth:.5}]}>
+                <Text style={[styles.textColor,{color:isDarkMode?'#fff':'#000'}]}>Support</Text>
+                <View style={[styles.row,{marginVertical: 10,paddingVertical:8, borderColor: isDarkMode?'#fff':'#000', borderBottomWidth:  .9}]}>
                     <View style={{flexDirection: 'row',alignItems: 'center' }}>
-                        <Octicons name={'question'} style={{marginHorizontal: 10}} size={23} color={'black'} />
+                        <Octicons name={'question'} style={[styles.iconStyle,isDarkMode&&{color:'#fff'}]} size={23} color={'black'} />
                         <Text>Help Center</Text>
                     </View>
                     <Icon name='chevron-right' size={30}/>
                 </View>
-                <View style={[styles.row,{marginVertical: 10,paddingVertical:8, borderBottomWidth:.5}]}>
+                <View style={[styles.row,{marginVertical: 10,paddingVertical:8,borderColor: isDarkMode?'#fff':'#000', borderBottomWidth:  .9}]}>
                     <View style={{flexDirection: 'row',alignItems: 'center' }}>
-                        <Octicons name={'question'} style={{marginHorizontal: 10}} size={23} color={'black'} />
+                        <Octicons name={'info'} style={[styles.iconStyle,isDarkMode&&{color:'#fff'}]} size={23} color={'black'} />
                         <Text>About Us</Text>
                     </View>
                     <Icon name='chevron-right' size={30}/>
@@ -82,11 +88,17 @@ function UserProfile({navigation}: Props) {
     );
 }
 const styles = StyleSheet.create({
-    
+    textColor:{
+        fontWeight:'bold',
+        fontSize:20
+    },
     row:{
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
+    },
+    iconStyle:{
+        marginHorizontal: 10,
     }
 });
 export default UserProfile;

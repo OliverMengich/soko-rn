@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unstable-nested-components */
-/* eslint-disable prettier/prettier */
+// /* eslint-disable prettier/prettier */
 /**
  * Sample React Native App
  * https://github.com/facebook/react-native
@@ -21,13 +21,17 @@ import CategoryScreen from './screens/CategoryScreen';
 import ProductDetail from './screens/ProductDetail';
 import AllCategoriesScreen from './screens/AllCategoriesScreen';
 import NotificationsScreen from './screens/NotificationsScreen';
+import RegistrationScreen from './screens/RegistrationScreen';
+import OnboardingScreen from './screens/OnboardingScreen';
 export type RootStackParamList = {
     HomeTabScreen: undefined;
     CategoryScreen: {id: string};
     LoginScreen: undefined;
 	ProductDetail: {id: number};
 	AllCategoriesScreen: undefined;
-	NotificationsScreen: undefined
+	NotificationsScreen: undefined;
+	RegistrationScreen: undefined;
+	OnboardingScreen: undefined
 };
 export type TabStackParamList = {
 	HomeScreen: undefined;
@@ -78,6 +82,8 @@ function App(): JSX.Element {
 			<SafeAreaView style={backgroundStyle}>
 				<Stack.Navigator screenOptions={{headerShown: false}}>
 					<Stack.Screen name={'HomeTabScreen'} component={TabNavigator}/>
+					<Stack.Screen options={{headerShown: false}} name={'RegistrationScreen'} component={RegistrationScreen}/>
+					<Stack.Screen name={'OnboardingScreen'} component={OnboardingScreen}/>
 					<Stack.Screen name={'LoginScreen'} component={LoginScreen}/>
 					<Stack.Screen options={{headerShown: false}} name={'CategoryScreen'} component={CategoryScreen}/>
 					<Stack.Screen options={{headerShown: true}} name={'ProductDetail'} component={ProductDetail}/>

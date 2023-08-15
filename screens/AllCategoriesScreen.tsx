@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import { View,Text, StyleSheet,useWindowDimensions, Dimensions, FlatList, Image, Platform, Pressable, PressableAndroidRippleConfig, StyleProp, TextStyle, ViewStyle } from 'react-native';
+import { View,Text, StyleSheet,useWindowDimensions, useColorScheme, Dimensions, FlatList, Image, Platform, Pressable, PressableAndroidRippleConfig, StyleProp, TextStyle, ViewStyle } from 'react-native';
 import { RootStackParamList } from '../App';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -17,7 +17,7 @@ const ThirdRoute = () => (
 const renderTabBar = (props: React.JSX.IntrinsicAttributes & SceneRendererProps & { navigationState: NavigationState<Route>; scrollEnabled?: boolean | undefined; bounces?: boolean | undefined; activeColor?: string | undefined; inactiveColor?: string | undefined; pressColor?: string | undefined; pressOpacity?: number | undefined; getLabelText?: ((scene: Scene<Route>) => string | undefined) | undefined; getAccessible?: ((scene: Scene<Route>) => boolean | undefined) | undefined; getAccessibilityLabel?: ((scene: Scene<Route>) => string | undefined) | undefined; getTestID?: ((scene: Scene<Route>) => string | undefined) | undefined; renderLabel?: ((scene: Scene<Route> & { focused: boolean; color: string; }) => React.ReactNode) | undefined; renderIcon?: ((scene: Scene<Route> & { focused: boolean; color: string; }) => React.ReactNode) | undefined; renderBadge?: ((scene: Scene<Route>) => React.ReactNode) | undefined; renderIndicator?: ((props: TabBarIndicatorProps<Route>) => React.ReactNode) | undefined; renderTabBarItem?: ((props: TabBarItemProps<Route> & { key: string; }) => React.ReactElement<any, string | React.JSXElementConstructor<any>>) | undefined; onTabPress?: ((scene: Scene<Route> & Event) => void) | undefined; onTabLongPress?: ((scene: Scene<Route>) => void) | undefined; tabStyle?: StyleProp<ViewStyle>; indicatorStyle?: StyleProp<ViewStyle>; indicatorContainerStyle?: StyleProp<ViewStyle>; labelStyle?: StyleProp<TextStyle>; contentContainerStyle?: StyleProp<ViewStyle>; style?: StyleProp<ViewStyle>; gap?: number | undefined; testID?: string | undefined; android_ripple?: PressableAndroidRippleConfig | undefined; }) => (
     <TabBar
         {...props}
-        indicatorStyle={{ backgroundColor: 'black' }}
+        indicatorStyle={{ backgroundColor: 'white' }}
         style={{ backgroundColor: '#f5f5f5' }}
         activeColor="black"
         inactiveColor="black"
@@ -49,13 +49,15 @@ const AllCategoriesTab = () => {
                     // horizontal={true}
                 />
                 <View style={{flexDirection: 'row',justifyContent: 'center', alignItems: 'center'}}>
-                    <Text style={[styles.notCurrentDiv,{ width: 20}]}>.</Text>
-                    <Text style={styles.notCurrentDiv}>.</Text>
-                    <Text style={styles.notCurrentDiv}>.</Text>
+                    {/* <Text style={[styles.notCurrentDiv,{ width: 20}]}>.</Text> */}
+                    <Text style={[styles.notCurrentDiv,true&&{backgroundColor:'#fff'},{ width: 20}]}>.</Text>
+                    <Text style={[styles.notCurrentDiv,true&&{backgroundColor:'#fff'}]}>.</Text>
+                    <Text style={[styles.notCurrentDiv,true&&{backgroundColor:'#fff'}]}>.</Text>
                 </View>
             </View>
             <View style={{marginTop: 40, marginHorizontal: 20}}>
-                <Text style={{color: 'black', fontWeight: 'bold', fontSize: 20}}>Hot Categories</Text>
+            <Text style={[false? {fontSize: 20,fontWeight:'bold', color:'#fff'}:{fontWeight:'bold',color: 'black',fontSize: 20}]}>Hot Categories</Text>
+                {/* <Text style={{color: 'black', fontWeight: 'bold', fontSize: 20}}>Hot Categories</Text> */}
             </View>
         </View>
     );
@@ -73,35 +75,38 @@ function AllCategoriesScreen({navigation}: Props) {
         { key: 'second', title: 'Fashion' },
         { key: 'third', title: 'Electronics'},
     ]);
+    const isDarkMode = useColorScheme() === 'dark';
 
-  return (
-    <>
-        <View style={styles.row}>
-            <Icon color={'black'} name="chevron-left" style={styles.iconStyle} size={30} onPress={()=>navigation.goBack()} />
-            <Text style={styles.boldText}>All Categories</Text>
-            <Icon color={'black'} style={styles.iconStyle} name="magnify" size={30} />
+    return (
+        <View style={[{flex:1, },isDarkMode&&{backgroundColor: '#0f172a'}]}>
+            <View style={styles.row}>
+                <Icon color={isDarkMode? '#fff':'black'} name="chevron-left" style={styles.iconStyle} size={30} onPress={()=>navigation.goBack()} />
+                <Text style={[styles.boldText,isDarkMode?{color: '#fff'}:{color: '#000'}]}>All Categories</Text>
+                <Icon color={isDarkMode? '#fff':'black'} style={styles.iconStyle} name="magnify" size={30} />
+            </View>
+            <TabView
+                navigationState={{ index, routes }}
+                renderScene={renderScene}
+                onIndexChange={setIndex}
+                initialLayout={{ width: layout.width }}
+                renderTabBar={renderTabBar}
+                swipeEnabled={false}
+            />
         </View>
-        <TabView
-            navigationState={{ index, routes }}
-            renderScene={renderScene}
-            onIndexChange={setIndex}
-            initialLayout={{ width: layout.width }}
-            renderTabBar={renderTabBar}
-            swipeEnabled={false}
-        />
-    </>
-  );
+    );
 }
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         paddingTop: Platform.OS === 'android' ? 20 : 0,
+        // backgroundColor: '#0f172a',
     },
     row:{
         flexDirection: 'row',
-        justifyContent: 'space-around',
+        justifyContent: 'space-between',
         alignItems: 'center',
         paddingVertical: 10,
+        paddingHorizontal: 20,
         marginTop: Platform.OS === 'android' ? 20 : 0,
     },
     notCurrentDiv:{

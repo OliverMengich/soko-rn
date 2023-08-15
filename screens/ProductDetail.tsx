@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
     addQuantity:{
         flexDirection: 'row',
         alignItems: 'center',
-        paddingVertical: 20,
+        paddingVertical: 10,
         paddingHorizontal: 10,
         width: '50%',
         justifyContent: 'space-around',
