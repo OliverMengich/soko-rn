@@ -20,17 +20,19 @@ import {
 } from 'react-native';
 import { RootStackParamList } from '../App';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { COLORS } from '../constants';
 type Props = NativeStackScreenProps<RootStackParamList, 'LoginScreen'>
 const {width,height} = Dimensions.get('window');
 interface TextInputProps {
 	placeholder: string;
+	color: string
 }
-function CustomTextInput({placeholder}:TextInputProps) {
+function CustomTextInput({placeholder,color}:TextInputProps) {
 	return (
 		<TextInput 
-			placeholderTextColor={'black'} 
+			placeholderTextColor={color} 
 			placeholder={placeholder} 
-			style={styles.textInputStyle}
+			style={[styles.textInputStyle,{color:color}]}
 			accessibilityViewIsModal
 		/>
 	);
@@ -44,19 +46,21 @@ function LoginScreen({navigation}: Props) {
     return (
         <View style={{flex:1}}>
             <StatusBar
-				barStyle={isDarkMode ? 'dark-content' : 'light-content'}
-				backgroundColor={'red'}
+				barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+				backgroundColor={isDarkMode? COLORS.darkBackground: '#fff'}
 			/>
-            <View style={styles.backgroundContainer}>
+            <View style={[styles.backgroundContainer,isDarkMode?styles.darkModeStyle:styles.lightModeStyle]}>
                     <View style={{position:'absolute',top: -350}}>
                         <Image style={{height:200,width:200,overflow:'hidden', alignSelf: 'center', borderWidth: 1, borderColor:'#000',borderRadius:100}} source={require('../assets/user-cart.png')} />
-						<Text style={styles.sectionTitle}>Soko Supermarket</Text>
-						<CustomTextInput placeholder={'Email'}/>
-						<CustomTextInput placeholder={'Password'}/>
-                        <Pressable android_ripple={{color: '#f5f5f5'}} onPress={handleLogin} style={styles.button}>
-                            <Text style={styles.buttonText}>LOGIN</Text>
-                        </Pressable>
-                        <Text style={{color:'blue', alignSelf: 'center'}}>Forgot password?</Text>
+						<Text style={[styles.sectionTitle,isDarkMode?styles.darModeTextColor:styles.lightModeTextColor]}>Soko Supermarket</Text>
+						<View style={{marginVertical:30}}>
+							<CustomTextInput color={isDarkMode?'black':'white'} placeholder={'Email'}/>
+							<CustomTextInput color={isDarkMode?'black':'white'} placeholder={'Password'}/>
+							<Pressable android_ripple={{color: '#f5f5f5'}} onPress={handleLogin} style={styles.button}>
+								<Text style={styles.buttonText}>LOGIN</Text>
+							</Pressable>
+							<Text style={{color:isDarkMode?'blue':'white', alignSelf: 'center'}}>Forgot password?</Text>
+						</View>
                     </View>
             </View> 
         </View>
@@ -67,12 +71,26 @@ const styles = StyleSheet.create({
 		flex:1,
 		width,
 		height:0,
-		borderTopColor:'red',
+		// borderTopColor:'red',
 		borderTopWidth:height / 2,
 		borderRightWidth: width,
-		borderRightColor:'white',
+		// borderRightColor:'white',
 		alignItems:'center',
 		justifyContent:'center',
+	},
+	darkModeStyle:{
+		borderRightColor: 'white',
+		borderTopColor:COLORS.darkBackground,
+	},
+	darModeTextColor:{
+		color: COLORS.darkBackground,
+	},
+	lightModeTextColor:{
+		color:'white',
+	},
+	lightModeStyle:{
+		borderTopColor:'white',
+		borderRightColor:COLORS.darkBackground,
 	},
 	redBg:{
 		flex: 1,
@@ -96,8 +114,8 @@ const styles = StyleSheet.create({
 		fontSize: 24,
 		fontWeight: '900',
 		textAlign: 'center',
-		marginVertical: 10,
-		color: 'black',
+		marginVertical: 15,
+		// color: 'black',
 	},
 	button:{
 		backgroundColor:'red',
