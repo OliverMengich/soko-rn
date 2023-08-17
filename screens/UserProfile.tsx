@@ -7,7 +7,25 @@ type Props = NativeStackScreenProps<RootStackParamList, 'HomeTabScreen'>;
 import Octicons from 'react-native-vector-icons/Octicons';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { COLORS } from '../constants';
+import { Switch } from 'react-native-switch';
 import { StatusBar } from 'react-native';
+type SettingItemProp={
+    title: string;
+    icon: string;
+    onPress?: ()=>void;
+    isDarkMode: boolean;
+}
+export const SettingItem =  ({isDarkMode, title, icon}: SettingItemProp)=>{
+    return (
+        <Pressable style={[styles.row,styles.settingItemStyle,{borderColor: isDarkMode?'#fff':'#000', borderBottomWidth:  .9}]}>
+            <View style={{flexDirection: 'row',alignItems: 'center' }}>
+                <Icon name={icon} style={[styles.iconStyle,isDarkMode&&{color:'#fff'}]} size={23} color={'black'} />
+                <Text style={{color:isDarkMode?'#fff':'#000'}}>{title}</Text>
+            </View>
+            <Icon color={isDarkMode?'#fff':'#000'} name='chevron-right' size={30}/>
+        </Pressable>
+    )
+}
 function UserProfile({navigation}: Props) {
     const isDarkMode = useColorScheme()==='dark';
     return (
@@ -33,55 +51,71 @@ function UserProfile({navigation}: Props) {
                         <Text>Account</Text>
                     </View>
                 </View>
-                <Icon name='chevron-right' size={30}/>
+                <Icon color={isDarkMode?'#fff':'#000'} name='chevron-right' size={30}/>
+                
             </View>
             <View style={{marginHorizontal: 20, marginTop: 20,}}>
                 <Text style={[styles.textColor,{color:isDarkMode?'#fff':'#000'}]}>Settings</Text>
-                <View style={[styles.row,{marginVertical: 10,paddingVertical:8, borderColor: isDarkMode?'#fff':'#000', borderBottomWidth:  .9}]}>
-                    <View style={{flexDirection: 'row',alignItems: 'center' }}>
-                        <Icon name={'shopping-outline'} style={[styles.iconStyle,isDarkMode&&{color:'#fff'}]} size={23} color={'black'} />
-                        <Text>My Orders</Text>
-                    </View>
-                    <Icon name='chevron-right' size={30}/>
-                </View>
-                <View style={[styles.row,{marginVertical: 10,paddingVertical:8, borderColor: isDarkMode?'#fff':'#000', borderBottomWidth:  .9}]}>
+                <SettingItem isDarkMode={isDarkMode} title={'My Orders'} icon={'shopping-outline'} />
+                <View style={[styles.row,styles.settingItemStyle,{borderColor: isDarkMode?'#fff':'#000', borderBottomWidth:  .9}]}>
                     <View style={{flexDirection: 'row',alignItems: 'center' }}>
                         <Octicons name={'location'} style={[styles.iconStyle,isDarkMode&&{color:'#fff'}]} size={23} color={'black'} />
                         {/* <Icon name={'shopping-outline'} style={{marginHorizontal: 10}} size={23} color={'black'} /> */}
-                        <Text>My Address</Text>
+                        <Text style={{color:isDarkMode?'#fff':'#000'}}>My Address</Text>
                     </View>
-                    <Icon name='chevron-right' size={30}/>
+                    <Icon color={isDarkMode?'#fff':'#000'} name='chevron-right' size={30}/>
                 </View>
-                <View style={[styles.row,{marginVertical: 10,paddingVertical:8, borderColor: isDarkMode?'#fff':'#000', borderBottomWidth:  .9}]}>
+
+                <SettingItem isDarkMode={isDarkMode} title={'My Wishlist'} icon={'heart'} />
+                <SettingItem isDarkMode={isDarkMode} title={'My Reviews'} icon={'comment-multiple-outline'} />
+                <View style={[styles.row,styles.settingItemStyle,{borderColor: isDarkMode?'#fff':'#000', borderBottomWidth:  .9}]}>
                     <View style={{flexDirection: 'row',alignItems: 'center' }}>
-                        <Icon name={'heart'} style={[styles.iconStyle,isDarkMode&&{color:'#fff'}]} size={23} color={'black'} />
-                        <Text>My Wishlist</Text>
+                        <Octicons name={isDarkMode?'sun':'moon'} style={[styles.iconStyle,isDarkMode&&{color:'#fff'}]} size={23} color={'black'} />
+                        <Text style={{color:isDarkMode?'#fff':'#000'}}>Dark mode</Text>
                     </View>
-                    <Icon name='chevron-right' size={30}/>
-                </View>
-                <View style={[styles.row,{marginVertical: 10,paddingVertical:8,borderColor: isDarkMode?'#fff':'#000', borderBottomWidth:  .9}]}>
-                    <View style={{flexDirection: 'row',alignItems: 'center' }}>
-                        <Icon name={'comment-multiple-outline'} style={[styles.iconStyle,isDarkMode&&{color:'#fff'}]} size={23} color={'black'} />
-                        <Text>My Reviews</Text>
-                    </View>
-                    <Icon name='chevron-right' size={30}/>
+                    <Switch
+                        value={isDarkMode}
+                        // onValueChange={(val) => console.log(val)}
+                        disabled={false}
+                        activeText={'On'}
+                        inActiveText={'Off'}
+                        circleSize={20}
+                        // barHeight={1}
+                        // circleBorderActiveColor={'white'}
+                        circleBorderInactiveColor='gray'
+                        circleBorderWidth={3}
+                        backgroundActive={isDarkMode?'white':COLORS.darkBackground}
+                        backgroundInactive={'gray'}
+                        circleActiveColor={'#fff'}
+                        circleInActiveColor={'#000000'}
+                        // renderInsideCircle={() => <Text>Active</Text>} // custom component to render inside the Switch circle (Text, Image, etc.)
+                        changeValueImmediately={true} // if rendering inside circle, change state immediately or wait for animation to complete
+                        innerCircleStyle={{ alignItems: "center", justifyContent: "center" }} // style for inner animated circle for what you (may) be rendering inside the circle
+                        outerCircleStyle={{}} // style for outer animated circle
+                        renderActiveText={false}
+                        renderInActiveText={false}
+                        switchLeftPx={2} // denominator for logic when sliding to TRUE position. Higher number = more space from RIGHT of the circle to END of the slider
+                        switchRightPx={2} // denominator for logic when sliding to FALSE position. Higher number = more space from LEFT of the circle to BEGINNING of the slider
+                        switchWidthMultiplier={2} // multiplied by the `circleSize` prop to calculate total width of the Switch
+                        switchBorderRadius={30} // Sets the border Radius of the switch slider. If unset, it remains the circleSize.
+                    />
                 </View>
             </View>
             <View style={{marginHorizontal: 20, marginTop: 20,}}>
                 <Text style={[styles.textColor,{color:isDarkMode?'#fff':'#000'}]}>Support</Text>
-                <View style={[styles.row,{marginVertical: 10,paddingVertical:8, borderColor: isDarkMode?'#fff':'#000', borderBottomWidth:  .9}]}>
+                <View style={[styles.row,styles.settingItemStyle,{borderColor: isDarkMode?'#fff':'#000', borderBottomWidth:  .9}]}>
                     <View style={{flexDirection: 'row',alignItems: 'center' }}>
                         <Octicons name={'question'} style={[styles.iconStyle,isDarkMode&&{color:'#fff'}]} size={23} color={'black'} />
-                        <Text>Help Center</Text>
+                        <Text style={{color:isDarkMode?'#fff':'#000'}}>Help Center</Text>
                     </View>
-                    <Icon name='chevron-right' size={30}/>
+                    <Icon color={isDarkMode?'#fff':'#000'} name='chevron-right' size={30}/>
                 </View>
-                <View style={[styles.row,{marginVertical: 10,paddingVertical:8,borderColor: isDarkMode?'#fff':'#000', borderBottomWidth:  .9}]}>
+                <View style={[styles.row,styles.settingItemStyle,{borderColor: isDarkMode?'#fff':'#000', borderBottomWidth:  .9}]}>
                     <View style={{flexDirection: 'row',alignItems: 'center' }}>
                         <Octicons name={'info'} style={[styles.iconStyle,isDarkMode&&{color:'#fff'}]} size={23} color={'black'} />
-                        <Text>About Us</Text>
+                        <Text style={{color:isDarkMode?'#fff':'#000'}}>About Us</Text>
                     </View>
-                    <Icon name='chevron-right' size={30}/>
+                    <Icon color={isDarkMode?'#fff':'#000'} name='chevron-right' size={30}/>
                 </View>
             </View>
         </View>
@@ -99,6 +133,10 @@ const styles = StyleSheet.create({
     },
     iconStyle:{
         marginHorizontal: 10,
-    }
+    },
+    settingItemStyle:{
+        marginVertical: 10,
+        paddingVertical:8,
+    },
 });
 export default UserProfile;
