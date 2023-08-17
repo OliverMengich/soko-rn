@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 // import { useRoute } from '@react-navigation/native';
 import React, { useLayoutEffect } from 'react';
-import {View,StyleSheet,Text, ImageBackground, Dimensions, Pressable, useWindowDimensions, PressableAndroidRippleConfig, StyleProp, TextStyle, ViewStyle} from 'react-native';
+import {View,StyleSheet,Text,useColorScheme, ImageBackground, Dimensions, Pressable, useWindowDimensions, PressableAndroidRippleConfig, StyleProp, TextStyle, ViewStyle} from 'react-native';
 import { RootStackParamList } from '../App';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 type Props = NativeStackScreenProps<RootStackParamList,'ProductDetail'>;
@@ -12,6 +12,7 @@ import { TabView,TabBar, SceneMap, NavigationState, Route, SceneRendererProps, T
 import { Scene, Event } from 'react-native-tab-view/lib/typescript/src/types';
 import ReviewsComponent from '../components/Reviews.component';
 import ProductDescriptionComponent from '../components/ProductDescription.component';
+import { COLORS } from '../constants';
 const NewHeader = (name: string, imageUrl: string)=>{
     return (
         <View>
@@ -55,8 +56,9 @@ function ProductDetail({navigation, route}: Props) {
             header: ()=>NewHeader(product?.name ?? '', product?.imageUrl ?? ''),
         });
     });
+    const isDarkMode = useColorScheme() === 'dark';
     return (
-       <View style={styles.container}>
+       <View style={[styles.container, {backgroundColor: isDarkMode?COLORS.darkBackground:'#fff'}]}>
             <Text style={styles.instockText}>In stock</Text>
             <View style={styles.rowEl}>
                 <View>
@@ -101,7 +103,6 @@ const styles = StyleSheet.create({
         flex: 1,
         position: 'relative',
         marginTop: height * 0.31,
-        backgroundColor: '#fff',
         paddingTop: 20,
     },
     instockText:{
@@ -175,6 +176,7 @@ const styles = StyleSheet.create({
     iconStyle:{
         backgroundColor: 'red',
         color:'#fff',
+        fontWeight: 'bold',
     },
     buttonText: {
         fontWeight: '900',
