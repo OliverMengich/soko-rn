@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import { View,Text, StyleSheet,useWindowDimensions, useColorScheme, Dimensions, FlatList, Image, Platform, Pressable, PressableAndroidRippleConfig, StyleProp, TextStyle, ViewStyle } from 'react-native';
+import { View,Text, StyleSheet,useWindowDimensions, useColorScheme, Dimensions, FlatList, Image, Platform, Pressable, PressableAndroidRippleConfig, StyleProp, TextStyle, ViewStyle, Animated } from 'react-native';
 import { RootStackParamList } from '../App';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -8,75 +8,78 @@ import SHOP_DATA from '../assets/data';
 const {width} = Dimensions.get('window');
 import { TabView,TabBar, SceneMap, NavigationState, Route, SceneRendererProps, TabBarIndicatorProps, TabBarItemProps } from 'react-native-tab-view';
 import { Scene, Event } from 'react-native-tab-view/lib/typescript/src/types';
-const SecondRoute = () => (
-    <View style={{ flex: 1, backgroundColor: '#673ab7' }} />
-);
-const ThirdRoute = () => (
-    <View style={{ flex: 1, backgroundColor: '#673ab7' }} />
-);
-const renderTabBar = (props: React.JSX.IntrinsicAttributes & SceneRendererProps & { navigationState: NavigationState<Route>; scrollEnabled?: boolean | undefined; bounces?: boolean | undefined; activeColor?: string | undefined; inactiveColor?: string | undefined; pressColor?: string | undefined; pressOpacity?: number | undefined; getLabelText?: ((scene: Scene<Route>) => string | undefined) | undefined; getAccessible?: ((scene: Scene<Route>) => boolean | undefined) | undefined; getAccessibilityLabel?: ((scene: Scene<Route>) => string | undefined) | undefined; getTestID?: ((scene: Scene<Route>) => string | undefined) | undefined; renderLabel?: ((scene: Scene<Route> & { focused: boolean; color: string; }) => React.ReactNode) | undefined; renderIcon?: ((scene: Scene<Route> & { focused: boolean; color: string; }) => React.ReactNode) | undefined; renderBadge?: ((scene: Scene<Route>) => React.ReactNode) | undefined; renderIndicator?: ((props: TabBarIndicatorProps<Route>) => React.ReactNode) | undefined; renderTabBarItem?: ((props: TabBarItemProps<Route> & { key: string; }) => React.ReactElement<any, string | React.JSXElementConstructor<any>>) | undefined; onTabPress?: ((scene: Scene<Route> & Event) => void) | undefined; onTabLongPress?: ((scene: Scene<Route>) => void) | undefined; tabStyle?: StyleProp<ViewStyle>; indicatorStyle?: StyleProp<ViewStyle>; indicatorContainerStyle?: StyleProp<ViewStyle>; labelStyle?: StyleProp<TextStyle>; contentContainerStyle?: StyleProp<ViewStyle>; style?: StyleProp<ViewStyle>; gap?: number | undefined; testID?: string | undefined; android_ripple?: PressableAndroidRippleConfig | undefined; }) => (
-    <TabBar
-        {...props}
-        indicatorStyle={{ backgroundColor: 'white' }}
-        style={{ backgroundColor: '#f5f5f5' }}
-        activeColor="black"
-        inactiveColor="black"
-    />
-);
+import TabElementComponent from '../components/Categories/TabElement.component';
+import { CATEGORY, SUBCATEGORY } from '../assets/newData';
+import { CategoryType } from '../components/Categories/TabElement.component';
+import CategoryInfoComponent from '../components/Categories/CategoryInfo.component';
+import { COLORS } from '../constants';
+
+
+
+const generatedTabComponents = (tabData:CategoryType[], isDarkMode: boolean)=>{
+    const tabComponents: {[key: string]: React.FC} = {
+        first: ()=>AllCategoriesTab(isDarkMode),
+    };
+    tabData.forEach((tab: CategoryType,idx: number)=>{
+        tabComponents[tab.name] = () => <TabElementComponent categoryData={CATEGORY} key={idx} category={tab.name}  />
+    });
+    return SceneMap(tabComponents);
+}
 type Props = NativeStackScreenProps<RootStackParamList, 'AllCategoriesScreen'>;
-const AllCategoriesTab = () => {
+const AllCategoriesTab = (isDarkMode: boolean) => {
+    console.log('ISDARKMODE PASSED VALUE: ',isDarkMode);
     return (
         <View style={styles.container}>
             <View>
                 <FlatList
                     data={SHOP_DATA}
                     renderItem={({item}) => (
-                        <View style={styles.viewContainer}>
-                            <Pressable android_ripple={{color: '#ccc'}} style={styles.itemStyle}>
-                                <Image
-                                    resizeMode="contain"
-                                    style={styles.imageStyle}
-                                    source={{
-                                        uri: item.imageUrl,
-                                    }}
-                                />
-                                <Text style={styles.titleText}>{item.title}</Text>
-                            </Pressable>
-                        </View>
+                        <CategoryInfoComponent
+                            key={item.id}
+                            item={item}
+                            isDarkMode={isDarkMode}
+                            handleNavigation={()=>{}}
+                        />
                     )}
                     keyExtractor={item => item.id}
                     numColumns={4}
-                    // horizontal={true}
                 />
                 <View style={{flexDirection: 'row',justifyContent: 'center', alignItems: 'center'}}>
-                    {/* <Text style={[styles.notCurrentDiv,{ width: 20}]}>.</Text> */}
                     <Text style={[styles.notCurrentDiv,true&&{backgroundColor:'#fff'},{ width: 20}]}>.</Text>
                     <Text style={[styles.notCurrentDiv,true&&{backgroundColor:'#fff'}]}>.</Text>
                     <Text style={[styles.notCurrentDiv,true&&{backgroundColor:'#fff'}]}>.</Text>
                 </View>
             </View>
             <View style={{marginTop: 40, marginHorizontal: 20}}>
-            <Text style={[false? {fontSize: 20,fontWeight:'bold', color:'#fff'}:{fontWeight:'bold',color: 'black',fontSize: 20}]}>Hot Categories</Text>
-                {/* <Text style={{color: 'black', fontWeight: 'bold', fontSize: 20}}>Hot Categories</Text> */}
+                <Text style={[styles.categoryHeaderText,isDarkMode? {fontSize: 20, color:'#fff'}:{color: '#000',fontSize: 20}]}>Hot Categories</Text>
             </View>
         </View>
     );
 };
-const renderScene = SceneMap({
-    first: AllCategoriesTab,
-    second: SecondRoute,
-    third: ThirdRoute,
-});
 function AllCategoriesScreen({navigation}: Props) {
     const layout = useWindowDimensions();
+    const renderTabBar = (props: React.JSX.IntrinsicAttributes & SceneRendererProps & { navigationState: NavigationState<Route>; scrollEnabled?: boolean | undefined; bounces?: boolean | undefined; activeColor?: string | undefined; inactiveColor?: string | undefined; pressColor?: string | undefined; pressOpacity?: number | undefined; getLabelText?: ((scene: Scene<Route>) => string | undefined) | undefined; getAccessible?: ((scene: Scene<Route>) => boolean | undefined) | undefined; getAccessibilityLabel?: ((scene: Scene<Route>) => string | undefined) | undefined; getTestID?: ((scene: Scene<Route>) => string | undefined) | undefined; renderLabel?: ((scene: Scene<Route> & { focused: boolean; color: string; }) => React.ReactNode) | undefined; renderIcon?: ((scene: Scene<Route> & { focused: boolean; color: string; }) => React.ReactNode) | undefined; renderBadge?: ((scene: Scene<Route>) => React.ReactNode) | undefined; renderIndicator?: ((props: TabBarIndicatorProps<Route>) => React.ReactNode) | undefined; renderTabBarItem?: ((props: TabBarItemProps<Route> & { key: string; }) => React.ReactElement<any, string | React.JSXElementConstructor<any>>) | undefined; onTabPress?: ((scene: Scene<Route> & Event) => void) | undefined; onTabLongPress?: ((scene: Scene<Route>) => void) | undefined; tabStyle?: StyleProp<ViewStyle>; indicatorStyle?: StyleProp<ViewStyle>; indicatorContainerStyle?: StyleProp<ViewStyle>; labelStyle?: StyleProp<TextStyle>; contentContainerStyle?: StyleProp<ViewStyle>; style?: StyleProp<ViewStyle>; gap?: number | undefined; testID?: string | undefined; android_ripple?: PressableAndroidRippleConfig | undefined; }) => {
+        console.log('PROPS TO RENDER TAB BAR: ',props.style)
+        return(
+            <TabBar
+                {...props}
+                indicatorStyle={isDarkMode?{backgroundColor: '#fff'}:{backgroundColor: COLORS.darkBackground}}
+                style={{backgroundColor: isDarkMode?COLORS.darkBackground: '#f5f5f5',}}
+                tabStyle={props.tabStyle}
+                scrollEnabled={true}
+                activeColor={isDarkMode?'#fff':'black'}
+                inactiveColor={isDarkMode?'#fff':'black'}
+            />
+        )
+    };
     const [index, setIndex] = React.useState(0);
     const [routes] = React.useState([
         { key: 'first', title: 'All Categories' },
-        { key: 'second', title: 'Fashion' },
-        { key: 'third', title: 'Electronics'},
+        ...CATEGORY.map((cat: CategoryType)=>({key: cat.name, title: cat.name}))
     ]);
+    console.log(routes);
     const isDarkMode = useColorScheme() === 'dark';
-
+    const renderScene = generatedTabComponents(CATEGORY, isDarkMode);
     return (
         <View style={[{flex:1, },isDarkMode&&{backgroundColor: '#0f172a'}]}>
             <View style={styles.row}>
@@ -90,6 +93,8 @@ function AllCategoriesScreen({navigation}: Props) {
                 onIndexChange={setIndex}
                 initialLayout={{ width: layout.width }}
                 renderTabBar={renderTabBar}
+                
+                style={{backgroundColor: isDarkMode?'#0f172a':'#fff'}}
                 swipeEnabled={false}
             />
         </View>
@@ -163,9 +168,14 @@ const styles = StyleSheet.create({
     },
     viewContainer: {
         borderRadius: 50,
-        width: 100, height: 100,
+        width: 100, 
+        height: 100,
         overflow: Platform.OS === 'android' ? 'hidden' : 'visible',
     },
     iconStyle:{fontWeight: '900'},
+    categoryHeaderText:{
+        fontSize: 20,
+        fontWeight:'bold', 
+    }
 });
 export default AllCategoriesScreen;
