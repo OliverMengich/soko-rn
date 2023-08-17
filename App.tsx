@@ -12,6 +12,7 @@ import HomeScreen from './screens/HomeScreen';
 import Cart from './screens/Cart';
 import UserProfile from './screens/UserProfile';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { NativeStackScreenProps, createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginScreen from './screens/LoginScreen';
 import CategoryScreen from './screens/CategoryScreen';
@@ -20,6 +21,8 @@ import AllCategoriesScreen from './screens/AllCategoriesScreen';
 import NotificationsScreen from './screens/NotificationsScreen';
 import RegistrationScreen from './screens/RegistrationScreen';
 import OnboardingScreen from './screens/OnboardingScreen';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { COLORS } from './constants';
 export type RootStackParamList = {
     HomeTabScreen: undefined;
     CategoryScreen: {id: string};
@@ -31,7 +34,7 @@ export type RootStackParamList = {
 	OnboardingScreen: undefined
 };
 export type TabStackParamList = {
-	HomeScreen: undefined;
+	HomeScreen: any;
 	Cart: undefined;
 	UserProfile: undefined;
 	Categories: undefined;
@@ -39,11 +42,15 @@ export type TabStackParamList = {
 const Tab = createBottomTabNavigator<TabStackParamList>();
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const TabBarIcon = ({name, size,focused}:{name: string,focused: boolean,size: number})=> (
-	<Icon  name={name} size={size} color={focused ? 'black' : '#ccc'} />
+	(<Icon  name={name} size={size} color={focused ? 'black' : '#ccc'} />)
+	// (<MaterialIcons  name={name} size={size} color={focused ? 'black' : '#ccc'} />)
 );
 function TabNavigator (){
 	return (
-		<Tab.Navigator screenOptions={{headerShown: false}}>
+		<Tab.Navigator screenOptions={{
+			headerShown: false,
+			// tabBarActiveTintColor: COLORS
+			}}>
 			<Tab.Screen
 				name="HomeScreen"
 				component={HomeScreen}
@@ -86,9 +93,9 @@ function App(): JSX.Element {
 		<NavigationContainer>
 			<SafeAreaView style={backgroundStyle}>
 				<Stack.Navigator screenOptions={{headerShown: false}}>
+					<Stack.Screen name={'OnboardingScreen'} component={OnboardingScreen}/>
 					<Stack.Screen name={'HomeTabScreen'} component={TabNavigator}/>
 					<Stack.Screen options={{headerShown: false}} name={'RegistrationScreen'} component={RegistrationScreen}/>
-					<Stack.Screen name={'OnboardingScreen'} component={OnboardingScreen}/>
 					<Stack.Screen name={'LoginScreen'} component={LoginScreen}/>
 					<Stack.Screen options={{headerShown: false}} name={'CategoryScreen'} component={CategoryScreen}/>
 					<Stack.Screen options={{headerShown: true}} name={'ProductDetail'} component={ProductDetail}/>
