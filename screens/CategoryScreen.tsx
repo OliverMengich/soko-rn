@@ -9,9 +9,15 @@ const {width} = Dimensions.get('screen');
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import ProductItemComponent from '../components/ProductItem.component';
 function CategoryScreen({route, navigation}: Props) {
     const categoryId = route.params.id;
     const category = SHOP_DATA.find((item)=> item.id === categoryId);
+    function handleProductDetailNav(id: number){
+        navigation.navigate('ProductDetail',{
+            id,
+        });
+    }
     return (
         <View>
             <View style={styles.rowContainer}>
@@ -26,20 +32,17 @@ function CategoryScreen({route, navigation}: Props) {
             <FlatList
                 data={category?.items}
                 renderItem={({item})=> (
-                    <View  style={styles.itemContainer}>
-                        <Image
-                            style={styles.imageStyle}
-                            source={{
-                                uri: item.imageUrl,
-                                method: 'GET',
-                            }}
-                        />
-                        <Text style={styles.itemName}>{item.name.slice(0,10)}...</Text>
-                        <Text style={[styles.normalText]}>${item.price}</Text>
-                    </View>
+                    <ProductItemComponent 
+                        key={item.id}
+                        imageUrl={item.imageUrl}
+                        name={item.name}
+                        price={item.price}
+                        id={item.id}
+                        handleProductDetailNav={handleProductDetailNav} 
+                    />
                 )}
                 numColumns={2}
-                // keyExtractor={(item)=> item.id}
+                keyExtractor={(item)=> item.id.toString()}
             />
         </View>
     );
