@@ -1,6 +1,6 @@
 /* eslint-disable eol-last */
 /* eslint-disable prettier/prettier */
-const CATEGORY =[
+export const CATEGORY =[
     {
         id: 1,
         name: 'Electronics',
@@ -26,14 +26,14 @@ const CATEGORY =[
         id: 4,
         name: 'Beauty',
         subCategories:['13','14','15','16'],
-        imageUrl:'',
+        imageUrl:'https://openclipart.org/image/800px/276320',
         featured: false,
     },
     {
         id: 5,
         name: 'Sports',
         subCategories:['17','18','19','20'],
-        imageUrl:'',
+        imageUrl:'https://openclipart.org/image/800px/276320',
         //updated at
         featured: false
     },
@@ -41,11 +41,11 @@ const CATEGORY =[
         id: 6,
         name: 'Toys',
         subCategories:['21','22','23','24'],
-        imageUrl:'',
+        imageUrl:'https://openclipart.org/image/800px/276320',
         featured: false
     }
 ];
-const SUBCATEGORY = [
+export const SUBCATEGORY = [
     {
         id: 1,
         name: 'Mobiles',
