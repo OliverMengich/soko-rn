@@ -26,6 +26,7 @@ import { RootStackParamList } from '../App';
 import type {NativeStackScreenProps } from '@react-navigation/native-stack';
 import ProductItemComponent from '../components/ProductItem.component';
 import CarouselComponent from '../components/Carousel.component';
+import CategoryInfoComponent from '../components/Categories/CategoryInfo.component';
 type Props = NativeStackScreenProps<RootStackParamList, 'HomeTabScreen'>;
 interface Item {id: string,imageUrl: string,price: number, title: string}
 function HomeScreen({navigation}: Props): JSX.Element {
@@ -100,21 +101,12 @@ function HomeScreen({navigation}: Props): JSX.Element {
                 <FlatList
                     data={SHOP_DATA}
                     renderItem={({item}) => (
-                        <View style={{ borderRadius: 50, width: 100, height: 100,overflow: Platform.OS ==='android'? 'hidden':'visible'}}>
-                            <Pressable onPress={()=>handleNavigation(item.id)} android_ripple={{color: '#ccc'}} style={[styles.categoryStyle, isDarkMode &&{borderColor:'#304d5d', backgroundColor: '#000'}]}>
-                                <Image
-                                    resizeMode="contain"
-                                    style={[styles.categoryImageStyle,isDarkMode &&{tintColor: '#fff'}]}
-                                    source={{
-                                        uri: item.imageUrl,
-                                        headers:{
-                                            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
-                                        },
-                                    }}
-                                />
-                                <Text style={isDarkMode? {fontSize:15, fontWeight: '600',color:'#fff'}:{fontSize:15, fontWeight: '600',color:'#000'}}>{item.title}</Text>
-                            </Pressable>
-                        </View>
+                        <CategoryInfoComponent
+                            handleNavigation={handleNavigation}
+                            isDarkMode={isDarkMode}
+                            item={item}
+                            key={item.id}
+                        />
                     )}
                     keyExtractor={item => item.id}
                     horizontal={true}
@@ -122,13 +114,13 @@ function HomeScreen({navigation}: Props): JSX.Element {
             </View>
             <View>
                 <View style={[styles.rowContainer,{marginVertical:10,marginHorizontal:17}]}>
-                    <Text style={[styles.boldText,isDarkMode? {fontSize: 20, color:'#fff'}:{fontSize: 20}]}>Featured Products</Text>
+                    <Text style={[styles.boldText,isDarkMode? {fontSize: 20, color:'#fff'}:{fontSize: 16}]}>Featured Categories</Text>
                     <Text style={styles.moreText}>Show all</Text>
                 </View>
                 <CarouselComponent/>    
             </View>
             <View style={[styles.rowContainer,{marginVertical:10,marginHorizontal:17}]}>
-                <Text style={[styles.boldText,isDarkMode? {fontSize: 20, color:'#fff'}:{fontSize: 20}]}>Popular</Text>
+                <Text style={[styles.boldText,isDarkMode? {fontSize: 20, color:'#fff'}:{fontSize: 16}]}>Popular</Text>
                 <Text style={styles.moreText}>Show all</Text>
             </View>
             <View style={[styles.itemsContainer,{marginVertical: 20,marginHorizontal:7}]}>
@@ -147,40 +139,12 @@ function HomeScreen({navigation}: Props): JSX.Element {
                     horizontal={true}
                 />
             </View>
-            
-            {/* <FlatList
-                data={SHOP_DATA}
-                renderItem={({item})=>(
-                    <View style={[{marginHorizontal:7, width: '100%'}]}>
-                        <View style={[styles.rowContainer,{marginHorizontal:7 }]}>
-                            <Text style={[styles.boldText,{fontSize: 20}]}>{item.title}</Text>
-                            <Text style={styles.moreText}>Show all</Text>
-                        </View>
-                        <FlatList
-                            data={item.items}
-                            renderItem={(val)=>{
-                                return (
-                                    <ProductItemComponent
-                                        id={val.item.id}
-                                        price={val.item.price}
-                                        handleProductDetailNav={handleProductDetailNav}
-                                        imageUrl={val.item.imageUrl}
-                                        name={val.item.name}
-                                    />
-                                );
-                            }}
-                            horizontal={true}
-                        />
-                    </View>
-                )}
-            /> */}
         </ScrollView>
     );
 }
 const styles = StyleSheet.create({
     container:{
         flex:1,
-        // backgroundColor:'#0f172a',
     },
     navContainer:{
         flexDirection:'row',
