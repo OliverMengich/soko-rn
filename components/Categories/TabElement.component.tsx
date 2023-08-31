@@ -2,6 +2,7 @@ import React from 'react';
 import { FlatList, Image, Pressable,Dimensions,useColorScheme, Platform, StyleSheet, Text, View } from 'react-native';
 import CarouselComponent from '../Carousel.component';
 import { COLORS } from '../../constants';
+import CategoryInfoComponent from './CategoryInfo.component';
 const {width} = Dimensions.get('window');
 export interface CategoryType{
     id: number;
@@ -22,18 +23,13 @@ function TabElementComponent({categoryData}:Props) {
                 <FlatList
                     data={categoryData}
                     renderItem={({item}) => (
-                        <View style={styles.viewContainer}>
-                            <Pressable android_ripple={{color: '#ccc'}} style={styles.itemStyle}>
-                                <Image
-                                    resizeMode="contain"
-                                    style={styles.imageStyle}
-                                    source={{
-                                        uri: item.imageUrl,
-                                    }}
-                                />
-                                <Text style={styles.titleText}>{item.name}</Text>
-                            </Pressable>
-                        </View>
+                        <CategoryInfoComponent
+                            key={item.id}
+                            item={item}
+                            handleNavigation={()=>{}}
+                            isDarkMode={isDarkMode}
+                        />
+
                     )}
                     keyExtractor={item => item.id.toString()}
                     numColumns={4}
