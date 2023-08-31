@@ -41,9 +41,9 @@ function OnboardingScreen({navigation}: Props) {
             case 'B':
                 return <BusClientComponent navigation={navigation} setNextScreen={setNextScreen} isDarkMode={isDarkMode} />;
             case 'C':
-                return <BusinessQuestionsComponent navRegister={handleNavigation} />;
+                return <BusinessQuestionsComponent isDarkMode={isDarkMode} setNextScreen={setNextScreen} />;
             case 'D':
-                return <LastWindowComponent navigation={navigation} />;
+                return <LastWindowComponent isDarkMode={isDarkMode} navigation={navigation} />;
             default:
                 return null;
         }
