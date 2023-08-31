@@ -2,13 +2,14 @@ import React from 'react';
 import { View,Dimensions, TextInput, StyleSheet } from 'react-native';
 interface TextInputProps extends React.ComponentProps<typeof TextInput> {
 	placeholder: string;
+    isDarkMode: boolean;
 };
 const {width,height} = Dimensions.get('window');
-function CustomTextInputComponent({placeholder,value, onChangeText}:TextInputProps) {
+function CustomTextInputComponent({placeholder,value, isDarkMode, onChangeText}:TextInputProps) {
     return (
         <View>
             <TextInput 
-                placeholderTextColor={'black'} 
+                placeholderTextColor={isDarkMode?'white':'black'} 
                 placeholder={placeholder} 
                 style={styles.textInputStyle}
                 accessibilityViewIsModal

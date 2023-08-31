@@ -1,40 +1,43 @@
 /* eslint-disable radix */
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import { View, Pressable,StyleSheet,Dimensions, Image, Text } from 'react-native';
+import { View, Pressable,StyleSheet,Dimensions, Image, Text, Platform } from 'react-native';
 import RatingComponent from './RatingComponent.component';
 type Props={
     imageUrl: string,
     price: number,
     id: number | string,
-    name: string
+    name: string,
+    isDarkMode: boolean,
     handleProductDetailNav: (id: number)=>void
 }
 const {width} = Dimensions.get('screen');
-function ProductItemComponent({handleProductDetailNav,id,name,price, imageUrl}: Props) {
+function ProductItemComponent({handleProductDetailNav,id,name,price,isDarkMode, imageUrl}: Props) {
+    const handlePress=()=>{handleProductDetailNav(typeof id === 'string' ? parseInt(id) : id)};
     return (
-        <Pressable onPress={()=>handleProductDetailNav(typeof id === 'string' ? parseInt(id) : id)} style={styles.itemContainer}>
-            <Image
-                style={styles.imageStyle}
-                source={{
-                    uri: imageUrl,
-                    method: 'GET',
-                }}
-            />
-            <Text style={styles.name}>{name.slice(0,10)}...</Text>
-            <View >
-                <RatingComponent rating={4.5} />
-            </View>
-            <Text style={[styles.normalText]}>${price}</Text>
-        </Pressable>
+        <View style={{ borderRadius: 0,marginHorizontal: 2,marginVertical: 5, overflow: Platform.OS ==='android'? 'hidden':'visible'}}>
+            <Pressable android_ripple={{color:'#ccc'}} onPress={handlePress} style={[styles.itemContainer,isDarkMode &&{borderColor:'#304d5d', backgroundColor: '#000'}]}>
+                <Image
+                    style={styles.imageStyle}
+                    source={{
+                        uri: imageUrl,
+                        method: 'GET',
+                    }}
+                />
+                <Text style={[styles.name,isDarkMode?{color:'#fff'}:{color:'#000'}]}>{name.slice(0,10)}...</Text>
+                <View >
+                    <RatingComponent rating={4.5} />
+                </View>
+                <Text style={[styles.normalText,isDarkMode?{color:'#fff'}:{color:'#000'}]}>${price}</Text>
+            </Pressable>
+        </View>
     );
 }
 const styles = StyleSheet.create({
-    name: {fontSize:15, fontWeight: '600',color:'#000'},
+    name: {fontSize:15, fontWeight: '600'},
     normalText:{
-        color: '#000',
         fontSize:16,
-        fontWeight: '200',
+        fontWeight: '400',
     },
     imageStyle: {
         height: 130,

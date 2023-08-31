@@ -1,10 +1,11 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet,useColorScheme } from 'react-native';
 
 function ReviewsComponent() {
+    const isDarkMode = useColorScheme() === 'dark';
     return (
-        <View style={styles.container}>
+        <View style={[styles.container,]}>
             <Text>Product Reviews</Text>
         </View>
     );
