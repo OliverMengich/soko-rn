@@ -30,6 +30,13 @@ export const CATEGORY =[
         featured: false,
     },
     {
+        id: 4,
+        name: 'Groceries',
+        subCategories:['13','14','15','16'],
+        imageUrl:'https://openclipart.org/image/800px/276320',
+        featured: false,
+    },
+    {
         id: 5,
         name: 'Sports',
         subCategories:['17','18','19','20'],
@@ -39,11 +46,18 @@ export const CATEGORY =[
     },
     {
         id: 6,
-        name: 'Toys',
+        name: 'Kids and Baby',
         subCategories:['21','22','23','24'],
         imageUrl:'https://openclipart.org/image/800px/276320',
         featured: false
-    }
+    },
+    {
+        id: 7,
+        name: "Women",
+        subCategories:['25','26','27','28'],
+        imageUrl:'https://openclipart.org/image/800px/276320',
+        featured: false
+    },
 ];
 export const SUBCATEGORY = [
     {
@@ -97,7 +111,6 @@ const SHOP_DATA = [
       imageUrl:'https://openclipart.org/image/800px/7032',
       
     },
-    
-  ];
+];
 export default SHOP_DATA;
 console.log();

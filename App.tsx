@@ -41,39 +41,44 @@ export type TabStackParamList = {
 };
 const Tab = createBottomTabNavigator<TabStackParamList>();
 const Stack = createNativeStackNavigator<RootStackParamList>();
-const TabBarIcon = ({name, size,focused}:{name: string,focused: boolean,size: number})=> (
-	(<Icon  name={name} size={size} color={focused ? 'black' : '#ccc'} />)
+const TabBarIcon = ({name, size,isDarkMode, focused}:{name: string,focused: boolean,isDarkMode:boolean, size: number})=> (
+	(<Icon  name={name} size={size} color={isDarkMode? focused ? 'red' : '#fff': focused?'#000':'#ccc'} />)
 	// (<MaterialIcons  name={name} size={size} color={focused ? 'black' : '#ccc'} />)
 );
 function TabNavigator (){
+	const isDarkMode = useColorScheme() === 'dark';
 	return (
 		<Tab.Navigator screenOptions={{
 			headerShown: false,
-			// tabBarActiveTintColor: COLORS
+			tabBarActiveTintColor: isDarkMode?  COLORS.darkBackground:'#000',
+			tabBarActiveBackgroundColor: isDarkMode? COLORS.darkBackground:'#fff',
+			tabBarInactiveBackgroundColor: isDarkMode? COLORS.darkBackground:'#fff',
+			tabBarInactiveTintColor: isDarkMode? '#fff':'#ccc',
 			}}>
 			<Tab.Screen
 				name="HomeScreen"
 				component={HomeScreen}
 				options={{
-					tabBarIcon:({focused}) => <TabBarIcon focused={focused} name={'home'} size={23} />,
+					tabBarIcon:({focused}) => <TabBarIcon isDarkMode={isDarkMode} focused={focused} name={'home'} size={23} />,
 				}}
 			/>
 			<Tab.Screen 
 				name="Categories"
 				options={{
-					tabBarIcon: ({focused})=> <TabBarIcon focused={focused} name={'menu'} size={23} />,
+					tabBarIcon: ({focused})=> <TabBarIcon isDarkMode={isDarkMode} focused={focused} name={'menu'} size={23} />,
+					
 				}}
 				component={AllCategoriesScreen}
 			/>
 			<Tab.Screen name="Cart"
 				component={Cart}
 				options={{
-					tabBarIcon: ({focused})=> <TabBarIcon focused={focused} name={'cart'} size={23} />,
+					tabBarIcon: ({focused})=> <TabBarIcon isDarkMode={isDarkMode} focused={focused} name={'cart'} size={23} />,
 				}}
 			/>
 			<Tab.Screen name="UserProfile"
 				options={{
-					tabBarIcon: ({focused})=> <TabBarIcon focused={focused} name={'account'} size={23} />,
+					tabBarIcon: ({focused})=> <TabBarIcon isDarkMode={isDarkMode} focused={focused} name={'account'} size={23} />,
 				}}
 				component={UserProfile}
 			/>
