@@ -16,8 +16,8 @@ function BusClientComponent({isDarkMode, navigation,setNextScreen}:{isDarkMode: 
                     <Text style={[styles.text,{color:isDarkMode?'white':'black'}]}>As a business</Text>
                     <Text style={[styles.normalText,{color:isDarkMode?'white':'black'}]}>You want to sell your products here</Text>
                 </Pressable>
-                <Pressable onPress={()=>{navigation.navigate('LoginScreen')}} style={styles.pressableBtn}>
-                    <Text style={styles.text}>As a customer</Text>
+                <Pressable onPress={()=>{navigation.navigate('RegistrationScreen')}} style={styles.pressableBtn}>
+                    <Text style={[styles.text,{color:isDarkMode?'white':'black'}]}>As a customer</Text>
                     <Text style={[styles.normalText,{color:isDarkMode?'white':'black'}]}>You want to buy products</Text>
                 </Pressable>
             </View>

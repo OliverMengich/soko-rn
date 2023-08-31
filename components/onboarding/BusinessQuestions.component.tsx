@@ -10,14 +10,14 @@ const QUESTIONS = [
     'What are you selling',
     'how do you think this platform will help you',
     'What is your Phone number? (This will help us contact you)',
-
     'Any Questions you wish to ask?'
 ];
 type Props={
-    navRegister: ()=>void;
+    setNextScreen: (screen: string)=>void;
+    isDarkMode: boolean
 }
-const {width,height} = Dimensions.get('window');
-function BusinessQuestionsComponent({navRegister}: Props) {
+const {width} = Dimensions.get('window');
+function BusinessQuestionsComponent({setNextScreen,isDarkMode}: Props) {
     const [question, setQuestion] = React.useState(0);
     const [questionResponse,setQuestionResponse] = React.useState<{[key: number]: string}>({})
 
@@ -26,7 +26,7 @@ function BusinessQuestionsComponent({navRegister}: Props) {
             setQuestion(question + 1);
         }else{
             setQuestion(0);
-            navRegister();
+            setNextScreen('D')
         }
     }
     function handlePreviousQuestion(){
@@ -45,12 +45,10 @@ function BusinessQuestionsComponent({navRegister}: Props) {
             <Image 
                 source={require('../../assets/quiz.jpg')} 
                 style={{width: width*.9, height: width/2, resizeMode: 'contain',}}
-
-                />
-            <Text style={styles.grayedtext}>QUESTION {question+1}/{QUESTIONS.length}</Text>
-            <Text style={styles.text}>{question+1}. {question===QUESTIONS.length? 'One last'+QUESTIONS[question]:  QUESTIONS[question]}</Text>
-            <CustomTextInputComponent value={questionResponse[question]} onChangeText={(text)=>handleTextChange(text)} placeholder='....'/>
-            {/* <CustomTextInput value={questionResponse[question]} onChangeText={(text)=>handleTextChange(text)} placeholder='....'/> */}
+            />
+            <Text style={[styles.grayedtext,{color:isDarkMode?'white':'black'}]}>QUESTION {question+1}/{QUESTIONS.length}</Text>
+            <Text style={[styles.text,{color:isDarkMode?'white':'black'}]}>{question+1}. {question===QUESTIONS.length? 'One last'+QUESTIONS[question]:  QUESTIONS[question]}</Text>
+            <CustomTextInputComponent isDarkMode={isDarkMode} value={questionResponse[question]} onChangeText={(text)=>handleTextChange(text)} placeholder='....'/>
             <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
                 <Pressable onPress={handlePreviousQuestion} style={styles.nextBtn}>
                     <Text style={styles.boldtext}>Prev</Text>
