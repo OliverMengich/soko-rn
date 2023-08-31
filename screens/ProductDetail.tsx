@@ -28,20 +28,22 @@ const NewHeader = (name: string, imageUrl: string)=>{
 };
 const {width, height} = Dimensions.get('screen');
 
-const renderTabBar = (props: React.JSX.IntrinsicAttributes & SceneRendererProps & { navigationState: NavigationState<Route>; scrollEnabled?: boolean | undefined; bounces?: boolean | undefined; activeColor?: string | undefined; inactiveColor?: string | undefined; pressColor?: string | undefined; pressOpacity?: number | undefined; getLabelText?: ((scene: Scene<Route>) => string | undefined) | undefined; getAccessible?: ((scene: Scene<Route>) => boolean | undefined) | undefined; getAccessibilityLabel?: ((scene: Scene<Route>) => string | undefined) | undefined; getTestID?: ((scene: Scene<Route>) => string | undefined) | undefined; renderLabel?: ((scene: Scene<Route> & { focused: boolean; color: string; }) => React.ReactNode) | undefined; renderIcon?: ((scene: Scene<Route> & { focused: boolean; color: string; }) => React.ReactNode) | undefined; renderBadge?: ((scene: Scene<Route>) => React.ReactNode) | undefined; renderIndicator?: ((props: TabBarIndicatorProps<Route>) => React.ReactNode) | undefined; renderTabBarItem?: ((props: TabBarItemProps<Route> & { key: string; }) => React.ReactElement<any, string | React.JSXElementConstructor<any>>) | undefined; onTabPress?: ((scene: Scene<Route> & Event) => void) | undefined; onTabLongPress?: ((scene: Scene<Route>) => void) | undefined; tabStyle?: StyleProp<ViewStyle>; indicatorStyle?: StyleProp<ViewStyle>; indicatorContainerStyle?: StyleProp<ViewStyle>; labelStyle?: StyleProp<TextStyle>; contentContainerStyle?: StyleProp<ViewStyle>; style?: StyleProp<ViewStyle>; gap?: number | undefined; testID?: string | undefined; android_ripple?: PressableAndroidRippleConfig | undefined; }) => (
-    <TabBar
-        {...props}
-        indicatorStyle={{ backgroundColor: 'black' }}
-        style={{ backgroundColor: '#fff' }}
-        activeColor="black"
-        inactiveColor="black"
-    />
-);
+
 const renderScene = SceneMap({
     first: ProductDescriptionComponent,
     second: ReviewsComponent,
 });
 function ProductDetail({navigation, route}: Props) {
+    const renderTabBar = (props: React.JSX.IntrinsicAttributes & SceneRendererProps & { navigationState: NavigationState<Route>; scrollEnabled?: boolean | undefined; bounces?: boolean | undefined; activeColor?: string | undefined; inactiveColor?: string | undefined; pressColor?: string | undefined; pressOpacity?: number | undefined; getLabelText?: ((scene: Scene<Route>) => string | undefined) | undefined; getAccessible?: ((scene: Scene<Route>) => boolean | undefined) | undefined; getAccessibilityLabel?: ((scene: Scene<Route>) => string | undefined) | undefined; getTestID?: ((scene: Scene<Route>) => string | undefined) | undefined; renderLabel?: ((scene: Scene<Route> & { focused: boolean; color: string; }) => React.ReactNode) | undefined; renderIcon?: ((scene: Scene<Route> & { focused: boolean; color: string; }) => React.ReactNode) | undefined; renderBadge?: ((scene: Scene<Route>) => React.ReactNode) | undefined; renderIndicator?: ((props: TabBarIndicatorProps<Route>) => React.ReactNode) | undefined; renderTabBarItem?: ((props: TabBarItemProps<Route> & { key: string; }) => React.ReactElement<any, string | React.JSXElementConstructor<any>>) | undefined; onTabPress?: ((scene: Scene<Route> & Event) => void) | undefined; onTabLongPress?: ((scene: Scene<Route>) => void) | undefined; tabStyle?: StyleProp<ViewStyle>; indicatorStyle?: StyleProp<ViewStyle>; indicatorContainerStyle?: StyleProp<ViewStyle>; labelStyle?: StyleProp<TextStyle>; contentContainerStyle?: StyleProp<ViewStyle>; style?: StyleProp<ViewStyle>; gap?: number | undefined; testID?: string | undefined; android_ripple?: PressableAndroidRippleConfig | undefined; }) => (
+        <TabBar
+            {...props}
+            indicatorStyle={isDarkMode?{backgroundColor: '#fff'}:{backgroundColor: COLORS.darkBackground}}
+            style={{ backgroundColor: isDarkMode?COLORS.darkBackground:'#fff' }}
+            tabStyle={props.tabStyle}
+            activeColor={isDarkMode?'#fff':'black'}
+            inactiveColor={isDarkMode?'#fff':'black'}
+        />
+    );
     const productID = route.params.id;
     const product = SHOP_DATA.map((item)=> item.items).flat().find((item)=> item.id === productID);
     console.log(product);
@@ -62,7 +64,7 @@ function ProductDetail({navigation, route}: Props) {
             <Text style={styles.instockText}>In stock</Text>
             <View style={styles.rowEl}>
                 <View>
-                    <Text style={styles.boldText}>{product?.name}</Text>
+                    <Text style={[styles.boldText,{color:isDarkMode?'#fff':'black'}]}>{product?.name}</Text>
                 </View>
                 <Icon name="heart-outline" color={'red'} size={30} />
             </View>
@@ -70,10 +72,10 @@ function ProductDetail({navigation, route}: Props) {
                 <Text style={styles.descriptionText}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit ipsum animi porro omnis aut voluptatum facere debitis fuga suscipit ratione!</Text>
             </View>
             <View style={[styles.row,{paddingVertical: 5, paddingHorizontal: 20}]}>
-                <Text style={[styles.boldText,{fontSize: 20}]}>${product?.price}</Text>
+                <Text style={[styles.boldText,{fontSize: 20,color:isDarkMode?'#fff':'black'}]}>${product?.price}</Text>
                 <View>
                     <RatingComponent rating={5} />
-                    <Text>3000 reviews</Text>
+                    <Text style={[styles.boldText,{fontSize: 20,color:isDarkMode?'#fff':'black'}]}>3000 reviews</Text>
                 </View>
             </View>
             <TabView
@@ -82,12 +84,13 @@ function ProductDetail({navigation, route}: Props) {
                 onIndexChange={setIndex}
                 initialLayout={{ width: layout.width }}
                 renderTabBar={renderTabBar}
+                style={{backgroundColor: isDarkMode?'#0f172a':'#fff'}}
                 swipeEnabled={false}
             />
             <View style={styles.bottomSection}>
-                <View style={styles.addQuantity}>
+                <View style={[styles.addQuantity,{backgroundColor:isDarkMode?COLORS.darkBackground:'#f5f5f5'}]}>
                     <Icon style={styles.iconStyle} name="minus" size={30} />
-                    <Text style={styles.quantityText}>1</Text>
+                    <Text style={[styles.quantityText,{color:isDarkMode?'#fff':'#000'}]}>1</Text>
                     <Icon style={styles.iconStyle} name="plus" size={30} />
                 </View>
                 <Pressable style={styles.cartBtn} onPress={()=>{}}>

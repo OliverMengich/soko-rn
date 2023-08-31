@@ -27,6 +27,7 @@ import type {NativeStackScreenProps } from '@react-navigation/native-stack';
 import ProductItemComponent from '../components/ProductItem.component';
 import CarouselComponent from '../components/Carousel.component';
 import CategoryInfoComponent from '../components/Categories/CategoryInfo.component';
+import HomecarouselComponent from '../components/homecarousel.component';
 type Props = NativeStackScreenProps<RootStackParamList, 'HomeTabScreen'>;
 interface Item {id: string,imageUrl: string,price: number, title: string}
 function HomeScreen({navigation}: Props): JSX.Element {
@@ -73,7 +74,8 @@ function HomeScreen({navigation}: Props): JSX.Element {
                         </Pressable>
                     </View>
                 </View>
-                <ImageBackground imageStyle={isDarkMode? {backgroundColor:'#0f172a'}:{backgroundColor: '#ccc'}} resizeMode="stretch" style={{height: width*1, paddingTop:10, position: 'relative'}}  source={require('../assets/barner.png')}>
+                <HomecarouselComponent isDarkMode={isDarkMode} />
+                {/* <ImageBackground imageStyle={isDarkMode? {backgroundColor:'#0f172a'}:{backgroundColor: '#ccc'}} resizeMode="stretch" style={{height: width*1, paddingTop:10, position: 'relative'}}  source={require('../assets/barner.png')}>
                     <View style={{position: 'absolute', bottom: 10, left:width*.2}}>
                         <Text style={[styles.normalText,{color: '#fff'}]}>Healthy Mondays</Text>
                         <Text style={[styles.boldText,{color: '#fff'}]}>Get Up to 70% off for everything</Text>
@@ -81,14 +83,14 @@ function HomeScreen({navigation}: Props): JSX.Element {
                             <Text style={{textAlign:'center',fontWeight:'bold',color:'#fff'}}>Shop Now</Text>
                         </Pressable>
                         <View style={{flexDirection: 'row',justifyContent: 'center', alignItems: 'center'}}>
-                                <Text style={[styles.notCurrentDiv,isDarkMode&&{backgroundColor:'#fff'}]}>.</Text>
-                                <Text style={[styles.notCurrentDiv,isDarkMode&&{backgroundColor:'#fff'}]}>.</Text>
-                                <Text style={[styles.notCurrentDiv,isDarkMode&&{backgroundColor:'#fff'},{ width: 20}]}>.</Text>
-                                <Text style={[styles.notCurrentDiv,isDarkMode&&{backgroundColor:'#fff'}]}>.</Text>
-                                <Text style={[styles.notCurrentDiv,isDarkMode&&{backgroundColor:'#fff'}]}>.</Text>
+                            <Text style={[styles.notCurrentDiv,isDarkMode&&{backgroundColor:'#fff'}]}>.</Text>
+                            <Text style={[styles.notCurrentDiv,isDarkMode&&{backgroundColor:'#fff'}]}>.</Text>
+                            <Text style={[styles.notCurrentDiv,isDarkMode&&{backgroundColor:'#fff'},{ width: 20}]}>.</Text>
+                            <Text style={[styles.notCurrentDiv,isDarkMode&&{backgroundColor:'#fff'}]}>.</Text>
+                            <Text style={[styles.notCurrentDiv,isDarkMode&&{backgroundColor:'#fff'}]}>.</Text>
                         </View>
                     </View>
-                </ImageBackground>
+                </ImageBackground> */}
             </View>
             <View style={[styles.rowContainer,{marginVertical: 15,marginHorizontal: 17}]}>
                 <Text style={[styles.boldText,isDarkMode? {fontSize: 20, color:'#fff'}:{fontSize: 20}]}>Categories</Text>
@@ -114,30 +116,33 @@ function HomeScreen({navigation}: Props): JSX.Element {
             </View>
             <View>
                 <View style={[styles.rowContainer,{marginVertical:10,marginHorizontal:17}]}>
-                    <Text style={[styles.boldText,isDarkMode? {fontSize: 20, color:'#fff'}:{fontSize: 16}]}>Featured Categories</Text>
+                    <Text style={[styles.boldText,{fontSize:16},isDarkMode&&{ color:'#fff'}]}>Featured Categories</Text>
                     <Text style={styles.moreText}>Show all</Text>
                 </View>
                 <CarouselComponent/>    
             </View>
-            <View style={[styles.rowContainer,{marginVertical:10,marginHorizontal:17}]}>
-                <Text style={[styles.boldText,isDarkMode? {fontSize: 20, color:'#fff'}:{fontSize: 16}]}>Popular</Text>
-                <Text style={styles.moreText}>Show all</Text>
-            </View>
-            <View style={[styles.itemsContainer,{marginVertical: 20,marginHorizontal:7}]}>
-                <FlatList
-                    data={POPULAR_ITEMS}
-                    renderItem={({item}) => (
-                        <ProductItemComponent
-                            id={item.id}
-                            handleProductDetailNav={handleProductDetailNav}
-                            imageUrl={item.imageUrl}
-                            name={item.title}
-                            price={item.price}
-                        />
-                    )}
-                    keyExtractor={item => item.id}
-                    horizontal={true}
-                />
+            <View>
+                <View style={[styles.rowContainer,{marginVertical:10,marginHorizontal:17}]}>
+                    <Text style={[styles.boldText,{fontSize:16},isDarkMode&& {color:'#fff'}]}>Popular</Text>
+                    <Text style={styles.moreText}>Show all</Text>
+                </View>
+                <View style={[styles.itemsContainer,{marginVertical: 20,marginHorizontal:7}]}>
+                    <FlatList
+                        data={POPULAR_ITEMS}
+                        renderItem={({item}) => (
+                            <ProductItemComponent
+                                id={item.id}
+                                handleProductDetailNav={handleProductDetailNav}
+                                imageUrl={item.imageUrl}
+                                isDarkMode={isDarkMode}
+                                name={item.title}
+                                price={item.price}
+                            />
+                        )}
+                        keyExtractor={item => item.id}
+                        horizontal={true}
+                    />
+                </View>
             </View>
         </ScrollView>
     );

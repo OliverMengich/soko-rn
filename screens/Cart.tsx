@@ -17,9 +17,9 @@ function Cart({navigation}: Props) {
                 backgroundColor={isDarkMode? COLORS.darkBackground:'#ccc'}
             />
             <View style={{ flexDirection: 'row',marginTop: 20, alignItems: 'center', marginHorizontal: 20, justifyContent: 'space-between'}}>
-                <Text style={styles.textColor}>Cart</Text>
+                <Text style={[styles.textColor,isDarkMode?{color:'#fff'}:{color:'black'}]}>Cart</Text>
                 <Pressable onPress={()=>navigation.navigate('NotificationsScreen')} android_ripple={{color: '#f5f5f5'}} style={{position: 'relative'}}>
-                    <Icon name={'shopping-outline'} style={{marginHorizontal: 10}} size={23} color={'black'} />
+                    <Icon name={'shopping-outline'} style={{marginHorizontal: 10}} size={23} color={isDarkMode?'#fff':'black'} />
                     <View style={{position:'absolute', top: -6, right: 4, backgroundColor: 'red', borderRadius: 15, width: 15, height: 15, alignItems:'center', justifyContent:'center'}}>
                         <Text style={{color:'#fff',fontWeight: 'bold', fontSize: 10}}>8</Text>
                     </View>
@@ -38,17 +38,17 @@ function Cart({navigation}: Props) {
                             </View>
                         </View>
                     </View>
-                    <View>
+                    <View style={{flexDirection:'column', alignItems:'center',justifyContent:'center'}}>
                         <Pressable onPress={()=>{}} android_ripple={{color: '#f5f5f5'}} style={{padding: 5, borderRadius: 5,}}>
                             <Icon name={'delete'} color={'red'} size={20} />
                         </Pressable>
                         <View style={{flexDirection: 'row',padding: 3,borderRadius:15,borderWidth:.5, justifyContent: 'space-between', width:80, backgroundColor:'#f5f5f5', alignItems: 'center'}}>
                             <Pressable onPress={()=>{}} android_ripple={{color: '#f5f5f5'}}>
-                                <Icon name={'minus'} size={20} />
+                                <Icon name={'minus'} color={isDarkMode?'#fff':'black'} size={20} />
                             </Pressable>
                             <Text style={{marginHorizontal: 5, fontWeight:'900'}}>1</Text>
                             <Pressable onPress={()=>{}} android_ripple={{color: '#f5f5f5'}}>
-                                <Icon name={'plus'} style={{fontWeight: 'bold'}} size={20} />
+                                <Icon name={'plus'} color={isDarkMode?'#fff':'black'} style={{fontWeight: 'bold'}} size={20} />
                             </Pressable>
                         </View>
                     </View>

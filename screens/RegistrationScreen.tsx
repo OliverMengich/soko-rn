@@ -4,6 +4,7 @@
 /* eslint-disable no-trailing-spaces */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable no-mixed-spaces-and-tabs */
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React from 'react';
 import {
     View,
@@ -16,42 +17,49 @@ import {
 	Image,
 	useColorScheme,
 } from 'react-native';
+import { RootStackParamList } from '../App';
+import { COLORS } from '../constants';
 const {width,height} = Dimensions.get('window');
 interface TextInputProps {
 	placeholder: string;
+	color: string
+
 }
-function CustomTextInput({placeholder}:TextInputProps) {
+function CustomTextInput({placeholder, color}:TextInputProps) {
 	return (
 		<TextInput 
-			placeholderTextColor={'black'} 
+			placeholderTextColor={color} 
 			placeholder={placeholder} 
-			style={styles.textInputStyle}
+			style={[styles.textInputStyle,{color:color}]}
 			accessibilityViewIsModal
 		/>
 	);
 }
-function RegistrationScreen() {
+type Props = NativeStackScreenProps<RootStackParamList, 'LoginScreen'>
+function RegistrationScreen({navigation}: Props) {
 	const isDarkMode = useColorScheme() === 'dark';
+	function handleRegistration(){
+		navigation.navigate('HomeTabScreen');
+	}
     return (
         <>
             <StatusBar
-				barStyle={isDarkMode ? 'dark-content' : 'light-content'}
-				backgroundColor={'red'}
+				barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+				backgroundColor={isDarkMode?COLORS.darkBackground:'red'}
 			/>
-            <View style={styles.backgroundContainer}>
-                    <View style={{position:'absolute',top: -350}}>
-						<Image style={{height:200,width:200,overflow:'hidden', alignSelf: 'center', borderWidth: 1, borderColor:'#000',borderRadius:100}} source={require('../assets/user-cart.png')} />
-                    
-						<Text style={styles.sectionTitle}>Soko Supermarket</Text>
-						<CustomTextInput placeholder={'First Name'}/>
-						<CustomTextInput placeholder={'Last Name'}/>
-						<CustomTextInput placeholder={'Email'}/>
-						<CustomTextInput placeholder={'Password'}/>
-						<CustomTextInput placeholder={'Confirm Password'}/>
-						<Pressable style={styles.button}>
-                            <Text style={styles.buttonText}>Register</Text>
-                        </Pressable>
-                    </View>
+            <View style={[styles.backgroundContainer,isDarkMode?styles.darkModeStyle:styles.lightModeStyle]}>
+				<View style={{position:'absolute',top: -350}}>
+					<Image style={styles.imageStyle} source={require('../assets/user-cart.png')} />
+					<Text style={styles.sectionTitle}>Soko Supermarket</Text>
+					<CustomTextInput color={isDarkMode?'black':'white'} placeholder={'First Name'}/>
+					<CustomTextInput color={isDarkMode?'black':'white'} placeholder={'Last Name'}/>
+					<CustomTextInput color={isDarkMode?'black':'white'} placeholder={'Email'}/>
+					<CustomTextInput color={isDarkMode?'black':'white'} placeholder={'Password'}/>
+					<CustomTextInput color={isDarkMode?'black':'white'} placeholder={'Confirm Password'}/>
+					<Pressable onPress={handleRegistration} style={styles.button}>
+						<Text style={styles.buttonText}>Register</Text>
+					</Pressable>
+				</View>
             </View> 
         </>
     );
@@ -60,12 +68,29 @@ const styles = StyleSheet.create({
 	backgroundContainer:{
 		flex:1,
         width,
-        borderTopColor:'red',
+        // borderTopColor:'red',
         borderTopWidth:height / 2,
         borderRightWidth: width,
-        borderRightColor:'#fff',
+        // borderRightColor:'#fff',
         alignItems:'center',
         justifyContent:'center',
+	},
+	imageStyle: {
+		height:200,
+		width:200,
+		overflow:'hidden',
+		alignSelf: 'center',
+		borderWidth: 1, 
+		borderColor:'#000',
+		borderRadius:100
+	},
+	darkModeStyle:{
+		borderRightColor: 'white',
+		borderTopColor:COLORS.darkBackground,
+	},
+	lightModeStyle:{
+		borderTopColor:'red',
+		borderRightColor:'white',
 	},
 	redBg:{
 		flex: 1,

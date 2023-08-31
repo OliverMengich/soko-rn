@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React from 'react';
-import { FlatList, Text,Image,StyleSheet,Dimensions, View, TextInput } from 'react-native';
+import { FlatList, StyleSheet,Dimensions,useColorScheme, View, TextInput } from 'react-native';
 import { RootStackParamList } from '../App';
 type Props = NativeStackScreenProps<RootStackParamList,'CategoryScreen'>;
 import SHOP_DATA from '../assets/data';
@@ -10,8 +10,10 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import ProductItemComponent from '../components/ProductItem.component';
+import { COLORS } from '../constants';
 function CategoryScreen({route, navigation}: Props) {
     const categoryId = route.params.id;
+    const isDarkMode = useColorScheme()==='dark';
     const category = SHOP_DATA.find((item)=> item.id === categoryId);
     function handleProductDetailNav(id: number){
         navigation.navigate('ProductDetail',{
@@ -19,21 +21,22 @@ function CategoryScreen({route, navigation}: Props) {
         });
     }
     return (
-        <View>
+        <View style={[{flex:1, alignItems:'center'},isDarkMode&&{backgroundColor:COLORS.darkBackground}]}>
             <View style={styles.rowContainer}>
-                <Icon name="chevron-left" color={'black'} onPress={()=>navigation.goBack()} size={30} />
+                <Icon name="chevron-left" color={isDarkMode?'white':'black'} onPress={()=>navigation.goBack()} size={30} />
                 <View style={styles.inputView}>
-                    <TextInput placeholderTextColor={'black'} style={styles.input} placeholder="Search Product" />
+                    <TextInput placeholderTextColor={isDarkMode?'black':'black'} style={[styles.input,isDarkMode&&{backgroundColor:'white'}]} placeholder="Search Product" />
                     <Ionicons color={'black'} name="search" size={25}/>
                 </View>
-                <Entypo color={'black'} name="sound-mix" size={25} />
-                <Icon name="dots-horizontal" color={'black'} onPress={()=>navigation.goBack()} size={30} />
+                <Entypo color={isDarkMode?'white':'black'} name="sound-mix" size={25} />
+                <Icon name="dots-horizontal" color={isDarkMode?'white':'black'} onPress={()=>navigation.goBack()} size={30} />
             </View>
             <FlatList
                 data={category?.items}
                 renderItem={({item})=> (
                     <ProductItemComponent 
                         key={item.id}
+                        isDarkMode={isDarkMode}
                         imageUrl={item.imageUrl}
                         name={item.name}
                         price={item.price}
@@ -73,11 +76,11 @@ const styles = StyleSheet.create({
     },
     input: {
         borderRadius: 40,
-        padding: 5,
+        padding: 3,
         backgroundColor: '#fff',
         color: '#000',
-        width: width * 0.6,
-        paddingLeft: 20,
+        width: width * 0.55,
+        paddingLeft: 18,
     },
     itemContainer: {
         marginRight: width * 0.1,

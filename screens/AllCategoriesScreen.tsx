@@ -63,7 +63,7 @@ function AllCategoriesScreen({navigation}: Props) {
         return(
             <TabBar
                 {...props}
-                indicatorStyle={isDarkMode?{backgroundColor: '#fff'}:{backgroundColor: COLORS.darkBackground}}
+                indicatorStyle={isDarkMode?{backgroundColor: '#fff',}:{backgroundColor: COLORS.darkBackground}}
                 style={{backgroundColor: isDarkMode?COLORS.darkBackground: '#f5f5f5',}}
                 tabStyle={props.tabStyle}
                 scrollEnabled={true}
@@ -93,7 +93,6 @@ function AllCategoriesScreen({navigation}: Props) {
                 onIndexChange={setIndex}
                 initialLayout={{ width: layout.width }}
                 renderTabBar={renderTabBar}
-                
                 style={{backgroundColor: isDarkMode?'#0f172a':'#fff'}}
                 swipeEnabled={false}
             />
@@ -104,14 +103,13 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         paddingTop: Platform.OS === 'android' ? 20 : 0,
-        // backgroundColor: '#0f172a',
     },
     row:{
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        paddingVertical: 10,
-        paddingHorizontal: 20,
+        paddingVertical: 7,
+        paddingHorizontal: 15,
         marginTop: Platform.OS === 'android' ? 20 : 0,
     },
     notCurrentDiv:{
