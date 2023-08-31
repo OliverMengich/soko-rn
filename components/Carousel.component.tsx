@@ -1,5 +1,5 @@
 import React, {useEffect, useRef,} from 'react';
-import { NativeScrollEvent, Pressable } from 'react-native';
+import { NativeScrollEvent, Platform, Pressable } from 'react-native';
 import { Text, View, Dimensions,FlatList, ImageBackground, ImageSourcePropType, NativeSyntheticEvent } from 'react-native';
 const {width} = Dimensions.get('window');
 function CarouselComponent() {
@@ -59,7 +59,7 @@ function CarouselComponent() {
     }
     const renderItem = ({item}:{item:{ id: string,image: ImageSourcePropType, title: string}}) => {
         return ( 
-            <View>
+            <View style={{ borderRadius: 0,marginHorizontal: 2,marginVertical: 5, overflow: Platform.OS ==='android'? 'hidden':'visible'}}>
                 <Pressable android_ripple={{color:'#fff'}} style={{alignContent: 'center',position: 'relative', borderRadius: 20, marginLeft:10,width: width*.8}}>
                     <ImageBackground style={{width: width*.8,borderRadius: 20, backgroundColor: 'black', height:200,  alignItems: 'center'}} resizeMode='contain' imageStyle={{width: width*.8, opacity: .5, borderRadius: 20, }} source={item.image} >
                         <View style={{position: 'absolute', top: '35%', left: 10}}>

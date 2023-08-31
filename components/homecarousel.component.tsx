@@ -1,8 +1,17 @@
 import React from 'react';
-import { NativeScrollEvent } from 'react-native';
+import { ImageSourcePropType, NativeScrollEvent } from 'react-native';
 import { NativeSyntheticEvent } from 'react-native';
 import { View, ImageBackground,Pressable, FlatList, Dimensions,StyleSheet, Text } from 'react-native';
 const {width} = Dimensions.get('window');
+interface CarouselProp{
+    item:{
+    id: string,
+    title: string,
+    description: string
+    image: ImageSourcePropType,
+    tab: string
+    }
+}
 function HomecarouselComponent({isDarkMode}: {isDarkMode: boolean}) {
     const flatlistRef = React.useRef<FlatList>(null);
     const carouselData = [
@@ -15,35 +24,35 @@ function HomecarouselComponent({isDarkMode}: {isDarkMode: boolean}) {
         },
         {
             id: '2',
-            title: 'Furniture',
+            title: 'Furniture Tuesday',
             description: 'Get amazing furniture at affordable prices, 70% off, talk to us today',
             image: require('../assets/quiz.jpg'),
             tab:'furniture'
         },
         {
             id: '3',
-            title: 'Electronics',
+            title: 'Electronics Wednesday',
             description: 'Get amazing electronics at affordable prices, 70%',
             image: require('../assets/sell-online.jpg'),
             tab: 'electronics'
         },
         {
             id:'4',
-            title:'Fashion',
+            title:'Fashion Friday',
             description:'Get amazing clothes, both mean and women clothes',
             tab: 'fashion',
             image: require('../assets/sell-online.jpg'),
         },
         {
             id:'5',
-            title:'Bakery',
+            title:'Bakery Saturday',
             description:'Get amazing bread and cakes each and affordable',
             tab: 'bakery',
             image: require('../assets/sell-online.jpg'),
         },
         {
             id: '6',
-            title: 'Mother and Kids',
+            title: 'Mother and Kids Sunday',
             description: 'Get amazing mother and kids products at affordable prices, 70%',
             tab: 'motherandkids',
             image: require('../assets/sell-online.jpg'),
@@ -70,7 +79,8 @@ function HomecarouselComponent({isDarkMode}: {isDarkMode: boolean}) {
         }, 3000);
         return () => clearInterval(interval);
     }, [activeIndex]);
-    const renderDotIndicator = () => { 
+    
+    const renderDotIndicator = (isDarkMode: boolean) => { 
         return (
             <View style={{flexDirection: 'row',justifyContent: 'center', alignItems: 'center'}}>
                 {
@@ -79,10 +89,10 @@ function HomecarouselComponent({isDarkMode}: {isDarkMode: boolean}) {
                             <View
                                 key={item.id}
                                 style={{
-                                    width: 10,
+                                    width: activeIndex === index ? 20 : 10,
                                     height: 10,
                                     borderRadius: 5,
-                                    backgroundColor: activeIndex === index ? 'red' : 'gray',
+                                    backgroundColor: isDarkMode?'white':'black',
                                     marginHorizontal: 5
                                 }}
                             />
@@ -98,28 +108,21 @@ function HomecarouselComponent({isDarkMode}: {isDarkMode: boolean}) {
         console.log(index);
         setActiveIndex(index);
     }
-    const renderItem = ({ item }: any) => {
+    const renderItem = ({ item }: CarouselProp) => {
         return(
-            <ImageBackground imageStyle={isDarkMode? {backgroundColor:'#0f172a'}:{backgroundColor: '#ccc'}} resizeMode="stretch" style={{height: width*1, paddingTop:10, position: 'relative'}}  source={require('../assets/barner.png')}>
-                    <View style={{position: 'absolute', bottom: 10, left:width*.2}}>
-                        <Text style={[styles.normalText,{color: '#fff'}]}>Healthy Mondays</Text>
-                        <Text style={[styles.boldText,{color: '#fff'}]}>Get Up to 70% off for everything</Text>
-                        <Pressable style={styles.button}>
-                            <Text style={{textAlign:'center',fontWeight:'bold',color:'#fff'}}>Shop Now</Text>
-                        </Pressable>
-                        <View style={{flexDirection: 'row',justifyContent: 'center', alignItems: 'center'}}>
-                                <Text style={[styles.notCurrentDiv,isDarkMode&&{backgroundColor:'#fff'}]}>.</Text>
-                                <Text style={[styles.notCurrentDiv,isDarkMode&&{backgroundColor:'#fff'}]}>.</Text>
-                                <Text style={[styles.notCurrentDiv,isDarkMode&&{backgroundColor:'#fff'},{ width: 20}]}>.</Text>
-                                <Text style={[styles.notCurrentDiv,isDarkMode&&{backgroundColor:'#fff'}]}>.</Text>
-                                <Text style={[styles.notCurrentDiv,isDarkMode&&{backgroundColor:'#fff'}]}>.</Text>
-                        </View>
-                    </View>
+            <ImageBackground imageStyle={isDarkMode? {backgroundColor:'#0f172a'}:{backgroundColor: '#ccc'}} resizeMode="stretch" style={{height: width*1,width, paddingVertical:10, position: 'relative'}}  source={item.image}>
+                <View style={{position: 'absolute', bottom: 10, left: width*.2}}>
+                    <Text style={[styles.normalText,{color: '#000'}]}>{item.title}</Text>
+                    <Text style={[styles.boldText,{color: '#fff'}]}>{item.description}</Text>
+                    <Pressable onPress={()=>{}} style={styles.button}>
+                        <Text style={{textAlign:'center',fontWeight:'bold',color:'#fff'}}>Shop Now</Text>
+                    </Pressable>
+                </View>
             </ImageBackground>
         )
     }
     return (
-        <View>
+        <View style={isDarkMode? {backgroundColor:'#0f172a'}:{backgroundColor: '#ccc'} }>
             <FlatList
                 data={carouselData}
                 renderItem={renderItem}
@@ -131,7 +134,7 @@ function HomecarouselComponent({isDarkMode}: {isDarkMode: boolean}) {
                 keyExtractor={item => item.id.toString()}
                 bounces={false}
             />
-            {renderDotIndicator()}
+            {renderDotIndicator(isDarkMode)}
         </View>
     );
 }
@@ -145,7 +148,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#000',
     },
     boldText:{
-        fontSize:30,
+        fontSize:22,
         fontWeight:'bold',
         color:'#000',
         maxWidth: width *.8,
@@ -160,7 +163,7 @@ const styles = StyleSheet.create({
 	},
     normalText:{
         fontSize:16,
-        fontWeight: '200',
+        fontWeight: '600',
     },
 })
 export default HomecarouselComponent;
